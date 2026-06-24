@@ -1,164 +1,319 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Glow – New Project</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/glow.css" />
-  <style>
-    body { align-items: flex-start; }
-
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding-top: 16px;
-      padding-bottom: 64px;
-      overflow: hidden;
-    }
-
-    .scroll-area {
-      flex: 1;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 160px;
-    }
-    .scroll-area::-webkit-scrollbar { display: none; }
-
-    .header-copy { display: flex; flex-direction: column; gap: 4px; padding: 24px 24px 0; }
-    .header-copy h1 { font-weight: 700; font-size: 24px; line-height: 30px; color: #696361; }
-    .header-copy p  { font-weight: 400; font-size: 14px; line-height: 20px; color: #8a827f; margin-top: 4px; }
-
-    .illustration-wrap { padding: 16px 24px 0; }
-    .illustration-card {
-      position: relative; background: #fcf2ee;
-      border-radius: 24px; height: 180px; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .illustration-card img { width: 300px; height: 140px; object-fit: contain; }
-    .new-project-tag {
-      position: absolute; bottom: 12px; right: 12px;
-      background: #fff; border-radius: 20px; padding: 5px 12px;
-      font-weight: 600; font-size: 12px; line-height: 16px; color: #696361; white-space: nowrap;
-    }
-
-    .input-wrap { padding: 16px 24px 0; }
-    .text-input {
-      background: #fdf6f4; border: 2px solid transparent;
-      border-radius: 16px; height: 56px;
-      display: flex; align-items: center; gap: 12px;
-      padding: 2px 18px; transition: border-color 0.2s;
-    }
-    .text-input:focus-within { border-color: #cd6338; }
-    .text-input .icon { flex-shrink: 0; width: 18px; height: 18px; opacity: 0.5; }
-    .text-input input {
-      flex: 1; background: none; border: none; outline: none;
-      font-family: inherit; font-weight: 400; font-size: 14px; color: #696361;
-    }
-    .text-input input::placeholder { color: rgba(105,99,97,0.5); }
-
-    .suggestions { padding: 8px 24px 24px; display: flex; flex-direction: column; gap: 8px; }
-    .suggestions-label { font-weight: 600; font-size: 12px; line-height: 16px; color: #b2a8a3; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip {
-      background: #faece6; border: 1px solid #f6d2c3; border-radius: 64px;
-      padding: 12px 24px; font-weight: 500; font-size: 16px; line-height: 1.2;
-      letter-spacing: -0.128px; color: #5f2e1a; cursor: pointer; white-space: nowrap;
-      transition: background 0.15s, border-color 0.15s; user-select: none;
-    }
-    .chip:hover { background: #f6d2c3; border-color: #e8b8a0; }
-    .chip.selected { background: #cd6338; border-color: #cd6338; color: #fff; }
-
-    .bottom-actions {
-      position: absolute; bottom: 100px; left: 24px; right: 24px;
-      display: flex; flex-direction: column; gap: 8px; z-index: 5;
-    }
-    .btn-continue {
-      width: 100%; height: 52px; background: #cd6338;
-      border: none; border-radius: 16px; font-family: inherit;
-      font-weight: 500; font-size: 16px; letter-spacing: -0.128px;
-      color: #fff; cursor: pointer; transition: background 0.15s;
-    }
-    .btn-continue:hover { background: #b8512d; }
-    .btn-skip {
-      background: none; border: none; font-family: inherit;
-      font-weight: 500; font-size: 14px; line-height: 20px;
-      color: #b2a8a3; cursor: pointer; text-align: center; padding: 8px; width: 100%;
-    }
-  </style>
-</head>
-<body>
-<div class="phone" data-nav-active="Home">
-
-  <div class="main">
-    <div class="scroll-area">
-      <div class="header-copy">
-        <h1>What are we<br>designing today?</h1>
-        <p>Give your project a name to get started.</p>
-      </div>
-
-      <div class="illustration-wrap">
-        <div class="illustration-card">
-          <img src="assets/decorative/new_project.svg" alt="New project illustration" />
-          <span class="new-project-tag">New project ✦</span>
-        </div>
-      </div>
-
-      <div class="input-wrap">
-        <div class="text-input">
-          <svg class="icon" viewBox="0 0 18 18" fill="none">
-            <path d="M9 1.5C4.86 1.5 1.5 4.36 1.5 7.875c0 1.69.75 3.225 1.98 4.35L2.25 15l3.105-1.305A8.16 8.16 0 0 0 9 14.25c4.14 0 7.5-2.86 7.5-6.375S13.14 1.5 9 1.5z" stroke="#696361" stroke-width="1.4" stroke-linejoin="round"/>
-          </svg>
-          <input type="text" id="project-name" placeholder="e.g. My Kitchen Refresh" maxlength="60" autocomplete="off" />
-        </div>
-      </div>
-
-      <div class="suggestions">
-        <span class="suggestions-label">Suggestions</span>
-        <div class="chips">
-          <button class="chip" data-value="My Room">My Room</button>
-          <button class="chip" data-value="Apartment Essentials">Apartment Essentials</button>
-          <button class="chip" data-value="Budget Kitchen">Budget Kitchen</button>
-          <button class="chip" data-value="Cozy Room">Cozy Room</button>
-          <button class="chip" data-value="Minimalist Dining Area">Minimalist Dining Area</button>
-          <button class="chip" data-value="Guest Room">Guest Room</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom-actions">
-      <button class="btn-continue" onclick="window.location.href='scan-start.html'">Continue</button>
-      <button class="btn-skip" onclick="window.location.href='home-welcome.html'">Skip for now</button>
-    </div>
-  </div>
-
-</div>
-<script src="assets/glow.js"></script>
-<script>
-  const input = document.getElementById('project-name');
-
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const val = chip.dataset.value;
-      if (chip.classList.contains('selected')) {
-        chip.classList.remove('selected');
-        if (input.value === val) input.value = '';
-      } else {
-        document.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
-        chip.classList.add('selected');
-        input.value = val;
-        input.focus();
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Glow – New Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/glow.css" />
+    <style>
+      body {
+        align-items: flex-start;
       }
-    });
-  });
 
-  input.addEventListener('input', () => {
-    document.querySelectorAll('.chip.selected').forEach(c => c.classList.remove('selected'));
-  });
-</script>
-</body>
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-top: 16px;
+        padding-bottom: 64px;
+        overflow: hidden;
+      }
+
+      .scroll-area {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 160px;
+      }
+      .scroll-area::-webkit-scrollbar {
+        display: none;
+      }
+
+      .header-copy {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 24px 24px 0;
+      }
+      .header-copy h1 {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        color: #696361;
+      }
+      .header-copy p {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #8a827f;
+        margin-top: 4px;
+      }
+
+      .illustration-wrap {
+        padding: 16px 24px 0;
+      }
+      .illustration-card {
+        position: relative;
+        background: #fcf2ee;
+        border-radius: 24px;
+        height: 180px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .illustration-card img {
+        width: 300px;
+        height: 140px;
+        object-fit: contain;
+      }
+      .new-project-tag {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: #696361;
+        white-space: nowrap;
+      }
+
+      .input-wrap {
+        padding: 16px 24px 0;
+      }
+      .text-input {
+        background: #fdf6f4;
+        border: 2px solid transparent;
+        border-radius: 16px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 2px 18px;
+        transition: border-color 0.2s;
+      }
+      .text-input:focus-within {
+        border-color: #cd6338;
+      }
+      .text-input .icon {
+        flex-shrink: 0;
+        width: 18px;
+        height: 18px;
+        opacity: 0.5;
+      }
+      .text-input input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        font-family: inherit;
+        font-weight: 400;
+        font-size: 14px;
+        color: #696361;
+      }
+      .text-input input::placeholder {
+        color: rgba(105, 99, 97, 0.5);
+      }
+
+      .suggestions {
+        padding: 8px 24px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .suggestions-label {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 16px;
+        color: #b2a8a3;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        background: #faece6;
+        border: 1px solid #f6d2c3;
+        border-radius: 64px;
+        padding: 12px 24px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.2;
+        letter-spacing: -0.128px;
+        color: #5f2e1a;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+        user-select: none;
+      }
+      .chip:hover {
+        background: #f6d2c3;
+        border-color: #e8b8a0;
+      }
+      .chip.selected {
+        background: #cd6338;
+        border-color: #cd6338;
+        color: #fff;
+      }
+
+      .bottom-actions {
+        position: absolute;
+        bottom: 100px;
+        left: 24px;
+        right: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 5;
+      }
+      .btn-continue {
+        width: 100%;
+        height: 52px;
+        background: #cd6338;
+        border: none;
+        border-radius: 16px;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 16px;
+        letter-spacing: -0.128px;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .btn-continue:hover {
+        background: #b8512d;
+      }
+      .btn-skip {
+        background: none;
+        border: none;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #b2a8a3;
+        cursor: pointer;
+        text-align: center;
+        padding: 8px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone" data-nav-active="Home">
+      <div class="main">
+        <div class="scroll-area">
+          <div class="header-copy">
+            <h1>What are we<br />designing today?</h1>
+            <p>Give your project a name to get started.</p>
+          </div>
+
+          <div class="illustration-wrap">
+            <div class="illustration-card">
+              <img
+                src="assets/decorative/new_project.svg"
+                alt="New project illustration"
+              />
+              <span class="new-project-tag">New project ✦</span>
+            </div>
+          </div>
+
+          <div class="input-wrap">
+            <div class="text-input">
+              <svg class="icon" viewBox="0 0 18 18" fill="none">
+                <path
+                  d="M9 1.5C4.86 1.5 1.5 4.36 1.5 7.875c0 1.69.75 3.225 1.98 4.35L2.25 15l3.105-1.305A8.16 8.16 0 0 0 9 14.25c4.14 0 7.5-2.86 7.5-6.375S13.14 1.5 9 1.5z"
+                  stroke="#696361"
+                  stroke-width="1.4"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <input
+                type="text"
+                id="project-name"
+                placeholder="e.g. My Kitchen Refresh"
+                maxlength="60"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="suggestions">
+            <span class="suggestions-label">Suggestions</span>
+            <div class="chips">
+              <button class="chip" data-value="My Room">My Room</button>
+              <button class="chip" data-value="Apartment Essentials">
+                Apartment Essentials
+              </button>
+              <button class="chip" data-value="Budget Kitchen">
+                Budget Kitchen
+              </button>
+              <button class="chip" data-value="Cozy Room">Cozy Room</button>
+              <button class="chip" data-value="Minimalist Dining Area">
+                Minimalist Dining Area
+              </button>
+              <button class="chip" data-value="Guest Room">Guest Room</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-actions">
+          <button
+            class="btn-continue"
+            onclick="window.location.href = 'scan-start.html'"
+          >
+            Continue
+          </button>
+          <button
+            class="btn-skip"
+            onclick="window.location.href = 'index.html'"
+          >
+            Skip for now
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="assets/glow.js"></script>
+    <script>
+      const input = document.getElementById("project-name");
+
+      document.querySelectorAll(".chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          const val = chip.dataset.value;
+          if (chip.classList.contains("selected")) {
+            chip.classList.remove("selected");
+            if (input.value === val) input.value = "";
+          } else {
+            document
+              .querySelectorAll(".chip.selected")
+              .forEach((c) => c.classList.remove("selected"));
+            chip.classList.add("selected");
+            input.value = val;
+            input.focus();
+          }
+        });
+      });
+
+      input.addEventListener("input", () => {
+        document
+          .querySelectorAll(".chip.selected")
+          .forEach((c) => c.classList.remove("selected"));
+      });
+    </script>
+  </body>
 </html>

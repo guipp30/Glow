@@ -1,3 +1,7 @@
+# Update prompt
+
+Read our whole conversation, extract every correction I made, every preference I stated, anything you'd do differently next time format it and add it this feedback file you'll reload in future sessions.
+
 # Glow — Session Feedback & Preferences
 
 Extracted from conversation on 2026-06-23. Load this at the start of every session before building any screen.
@@ -31,6 +35,7 @@ Extracted from conversation on 2026-06-23. Load this at the start of every sessi
 **What happened:** Screen 1 had no full-width CTA (correct — the "New" button is inline inside the card). Screens 2 and 3 had the CTA in the normal document flow with inconsistent spacing. The user asked for consistent button position across the flow.
 
 **How to apply:**
+
 - Full-width primary CTAs (Continue, Scan, Next, etc.) → always `position: absolute; bottom: 100px; left: 24px; right: 24px; z-index: 5`.
 - Add `padding-bottom: 160px` to the scroll area on any screen with a pinned CTA, so scrollable content clears it.
 - Compact inline buttons (like "New" inside a card) are exempt — those stay in flow.
@@ -59,6 +64,7 @@ Extracted from conversation on 2026-06-23. Load this at the start of every sessi
 **Rule:** Never use Figma MCP asset URLs (`https://www.figma.com/api/mcp/asset/…`) as `src` values in delivered HTML. They expire in 7 days.
 
 **How to apply:**
+
 1. First look for the asset in `/assets/` — if it exists, use the local path.
 2. If the asset is a simple illustration composed of SVG paths, recreate it as an inline `<svg>`.
 3. Only fall back to Figma URLs for images that can't be recreated and don't exist locally — and flag them clearly in STATUS as "Expiring asset — needs local copy".
@@ -70,6 +76,7 @@ Extracted from conversation on 2026-06-23. Load this at the start of every sessi
 **Rule:** Update STATUS.html immediately after each screen is completed. Never batch updates.
 
 **Fields to update each time:**
+
 - Summary cards (screens built / to build counts)
 - The specific screen row (file name, badge → Done, notes)
 
@@ -112,6 +119,7 @@ Extracted from conversation on 2026-06-23. Load this at the start of every sessi
 **What happened:** The Scanning Room video was initially set to `width: 402px; height: 718px` (matching the Figma content container) and the overlay was `390×650`. The user explicitly asked for both to fill the screen.
 
 **How to apply:**
+
 - Video: `position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover`
 - Overlay: same `inset: 0` — never use fixed pixel dimensions from the Figma content zone.
 
@@ -144,12 +152,38 @@ Extracted from conversation on 2026-06-23. Load this at the start of every sessi
 **What happened:** My original build used `::before` / `::after` filled orange bars. The user replaced them with CSS border-only corners (two sides per corner, `2.5px solid white`, `6px` outer border-radius), which looks far cleaner against the dark camera background.
 
 **How to apply:**
+
 ```css
-.corner.tl { top: 0; left: 0; border-top: 2.5px solid white; border-left: 2.5px solid white; border-radius: 6px 0 0 0; }
-.corner.tr { top: 0; right: 0; border-top: 2.5px solid white; border-right: 2.5px solid white; border-radius: 0 6px 0 0; }
-.corner.bl { bottom: 0; left: 0; border-bottom: 2.5px solid white; border-left: 2.5px solid white; border-radius: 0 0 0 6px; }
-.corner.br { bottom: 0; right: 0; border-bottom: 2.5px solid white; border-right: 2.5px solid white; border-radius: 0 0 6px 0; }
+.corner.tl {
+  top: 0;
+  left: 0;
+  border-top: 2.5px solid white;
+  border-left: 2.5px solid white;
+  border-radius: 6px 0 0 0;
+}
+.corner.tr {
+  top: 0;
+  right: 0;
+  border-top: 2.5px solid white;
+  border-right: 2.5px solid white;
+  border-radius: 0 6px 0 0;
+}
+.corner.bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 2.5px solid white;
+  border-left: 2.5px solid white;
+  border-radius: 0 0 0 6px;
+}
+.corner.br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2.5px solid white;
+  border-right: 2.5px solid white;
+  border-radius: 0 0 6px 0;
+}
 ```
+
 Width/height: `32×26.88px` per the Figma corner containers.
 
 ---
@@ -161,6 +195,7 @@ Width/height: `32×26.88px` per the Figma corner containers.
 **What happened:** The Scanning Room progress chips were built with `background: rgba(225,109,62,0.18)` (translucent). User asked to make them "filled with the main colour".
 
 **How to apply:**
+
 - Active done chip: `background: #cd6338; color: #fff; border: 1px solid #cd6338`
 - Mood/tag chips (toggleable): active = `background: #faece6; border-color: #f6d2c3; color: #5f2e1a` (peach fill); inactive = `background: #fff; border-color: #e4d7d1; color: #b2a8a3`
 
@@ -173,10 +208,16 @@ Width/height: `32×26.88px` per the Figma corner containers.
 **What happened:** The Set Budget slider track pseudo-element had `background: #e4d7d1` which blocked the orange fill from showing. Fix: remove `::-webkit-slider-runnable-track { background }` entirely and set the gradient directly on the `input` element.
 
 **How to apply:**
+
 ```css
-input[type=range] { -webkit-appearance: none; height: 8px; border-radius: 999px; /* no background here — set via JS */ }
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 8px;
+  border-radius: 999px; /* no background here — set via JS */
+}
 /* NO ::-webkit-slider-runnable-track rule */
 ```
+
 ```js
 slider.style.background = `linear-gradient(to right, #e16d3e 0%, #e16d3e ${pct}%, #e4d7d1 ${pct}%, #e4d7d1 100%)`;
 ```
@@ -206,6 +247,7 @@ slider.style.background = `linear-gradient(to right, #e16d3e 0%, #e16d3e ${pct}%
 ## Build flow
 
 **Rule:** Before building any screen, always:
+
 1. Call `get_design_context` for that specific node ID.
 2. Read annotations (`data-content-annotations`, `data-development-annotations`, `data-interaction-annotations`) — they contain asset paths, interaction notes, and dev guidance.
 3. Check which assets in the design exist locally in `/assets/` before deciding on inline SVG vs local file vs Figma URL.
@@ -221,20 +263,30 @@ slider.style.background = `linear-gradient(to right, #e16d3e 0%, #e16d3e ${pct}%
 ## Bottom navigation
 
 **Rule:** The liquid-glass bottom nav is present on every screen. Standard CSS:
+
 ```css
 .bottom-nav-wrap {
-  position: absolute; bottom: 20px; left: 50%;
-  transform: translateX(-50%); z-index: 20;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
 }
 .bottom-nav {
-  background: rgba(253,249,247,0.72);
+  background: rgba(253, 249, 247, 0.72);
   backdrop-filter: blur(20px) saturate(1.8);
-  border-radius: 100px; padding: 8px 24px;
-  display: flex; gap: 24px; align-items: center;
-  box-shadow: 0 4px 4px rgba(0,0,0,0.1), inset 0 2px 7.8px rgba(0,0,0,0.1);
-  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 100px;
+  padding: 8px 24px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  box-shadow:
+    0 4px 4px rgba(0, 0, 0, 0.1),
+    inset 0 2px 7.8px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 ```
+
 Active nav item label color: `#e16d3e`. Inactive icons: `filter: grayscale(0.4) opacity(0.6)`.
 
 ---
@@ -250,15 +302,15 @@ Active nav item label color: `#e16d3e`. Inactive icons: `filter: grayscale(0.4) 
 
 ## Color tokens
 
-| Token | Value |
-|---|---|
-| Primary 600 (CTA) | `#cd6338` |
-| Primary 500 (active) | `#e16d3e` |
-| Primary 50 (chip bg) | `#faece6` |
-| Primary 100 (chip border) | `#f6d2c3` |
-| Neutral 900 (headings) | `#696361` |
-| Neutral 700 (body) | `#8a827f` |
-| Neutral 400 (muted) | `#b2a8a3` |
-| Background warm | `#fdf9f7` / `#fffdfd` |
-| Peach card bg | `#fcf2ee` |
-| Border muted | `#e4d7d1` |
+| Token                     | Value                 |
+| ------------------------- | --------------------- |
+| Primary 600 (CTA)         | `#cd6338`             |
+| Primary 500 (active)      | `#e16d3e`             |
+| Primary 50 (chip bg)      | `#faece6`             |
+| Primary 100 (chip border) | `#f6d2c3`             |
+| Neutral 900 (headings)    | `#696361`             |
+| Neutral 700 (body)        | `#8a827f`             |
+| Neutral 400 (muted)       | `#b2a8a3`             |
+| Background warm           | `#fdf9f7` / `#fffdfd` |
+| Peach card bg             | `#fcf2ee`             |
+| Border muted              | `#e4d7d1`             |

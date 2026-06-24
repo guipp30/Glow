@@ -211,7 +211,7 @@
         <p class="eyebrow">GlowAI Design System</p>
         <h1>Build Status Report</h1>
         <p class="meta">
-          Generated 23 Jun 2026 · Based on Figma file: GlowAI Design (Flow:
+          Generated 24 Jun 2026 · Based on Figma file: GlowAI Design (Flow:
           Kitchen Refresh)
         </p>
       </header>
@@ -219,16 +219,16 @@
       <!-- Summary cards -->
       <div class="summary">
         <div class="card done">
-          <span class="num">10</span><span class="lbl">Screens built</span>
+          <span class="num">15</span><span class="lbl">Screens built</span>
         </div>
         <div class="card todo">
-          <span class="num">7</span><span class="lbl">Screens to build</span>
+          <span class="num">2</span><span class="lbl">Screens to build</span>
         </div>
         <div class="card done">
           <span class="num">10</span><span class="lbl">Components needed</span>
         </div>
         <div class="card warn">
-          <span class="num">5</span><span class="lbl">Assets missing</span>
+          <span class="num">3</span><span class="lbl">Assets missing</span>
         </div>
       </div>
 
@@ -249,7 +249,7 @@
             <tr>
               <td>1</td>
               <td>Home Welcome</td>
-              <td>home-welcome.html</td>
+              <td>index.html</td>
               <td><span class="badge done">Done</span></td>
               <td>Full layout, local assets, bottom nav, trends strip</td>
             </tr>
@@ -322,39 +322,37 @@
             <tr>
               <td>11</td>
               <td>Item Swap 2</td>
-              <td>—</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>Swap confirmation state</td>
+              <td>item-swap-2.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Swap confirmed state — green success banner, updated product list (all green dots), total €845, Continue → shopping-list, Save to Folder + Share outline buttons</td>
             </tr>
             <tr>
               <td>12</td>
               <td>Shopping List</td>
-              <td>—</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>
-                Products with budget tracker; cabinets/lamp/sink assets exist
-              </td>
+              <td>shopping-list.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>3 product cards (photo + name + source + price + Buy), budget progress bar €779/€800, Finish → index.html</td>
             </tr>
             <tr>
               <td>13</td>
               <td>Folders</td>
-              <td>—</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>Saved projects grid; gallery images exist</td>
+              <td>folders.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>"YOUR SPACE / Projects" header, search bar, My House folder card (2×2 image grid), New Folder dashed button; nav active = Projects</td>
             </tr>
             <tr>
               <td>14</td>
               <td>Overlay Menu</td>
-              <td>—</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>Slide-in nav overlay</td>
+              <td>glow.js (injected)</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Slide-in panel injected by glow.js on every nav page; Menu button triggers glowOpenMenu(); profile, stats, 4 sections, close button</td>
             </tr>
             <tr>
               <td>15</td>
               <td>Home Final</td>
-              <td>—</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>Project summary: 50% progress, next steps, "Your Picks"</td>
+              <td>home-final.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>"Budget Kitchen" header, 4-segment progress bar at 50%, 5 checked + 1 todo next steps, Your Picks horizontal scroll, Trending horizontal scroll; Menu opens overlay</td>
             </tr>
             <tr>
               <td>16</td>
@@ -390,23 +388,20 @@
             <tr>
               <td>Bottom Navigation</td>
               <td>13</td>
-              <td><span class="badge partial">Partial</span></td>
-              <td>
-                Coded inline in home-welcome; needs extraction to shared
-                component
-              </td>
+              <td><span class="badge done">Done</span></td>
+              <td>Shared via glow.js (auto-injected via data-nav-active); liquid-glass pill; Home links to index.html</td>
             </tr>
             <tr>
               <td>Primary Button (Buttons)</td>
               <td>25 + 14</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>Orange #cd6338, rounded-16, icon + label variant</td>
+              <td><span class="badge done">Done</span></td>
+              <td>.btn-primary in glow.css — orange #cd6338, rounded-16, 52px height</td>
             </tr>
             <tr>
               <td>Secondary Button</td>
               <td>1</td>
-              <td><span class="badge missing">Missing</span></td>
-              <td>Outlined/ghost variant</td>
+              <td><span class="badge done">Done</span></td>
+              <td>.btn-outline in item-swap-2 — border #5f2e1a, used for Save to Folder + Share</td>
             </tr>
             <tr>
               <td>Swap Button / Icon</td>
@@ -441,8 +436,8 @@
             <tr>
               <td>Status Bar</td>
               <td>17</td>
-              <td><span class="badge partial">Partial</span></td>
-              <td>Coded inline in home-welcome; needs extraction</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Intentionally omitted — Figma design artifact, never added to any screen</td>
             </tr>
             <tr>
               <td>Room Picker Button</td>
@@ -523,11 +518,11 @@
         </div>
 
         <div class="asset-group">
-          <h3>Shopping List (/assets/decorative/shopping_list/)</h3>
+          <h3>Shopping List (/assets/decorative/shopping-list/)</h3>
           <div class="asset-list">
-            <span class="asset-pill have">cabinets.png + .avif</span>
-            <span class="asset-pill have">lamp.png + .avif</span>
-            <span class="asset-pill have">sink.png + .avif</span>
+            <span class="asset-pill have">cabinets.jpg</span>
+            <span class="asset-pill have">lamp.png</span>
+            <span class="asset-pill have">sink.jpg</span>
           </div>
         </div>
 
@@ -566,15 +561,17 @@
         <div class="asset-group">
           <h3>Missing Assets</h3>
           <div class="asset-list">
-            <span class="asset-pill missing"
-              >assets/icons/chevron-right.svg ✗</span
-            >
-            <span class="asset-pill missing">assets/icons/share.svg ✗</span>
-            <span class="asset-pill missing"
-              >assets/decorative/3d_room.svg ✗</span
-            >
+            <span class="asset-pill missing">assets/decorative/3d_room.svg ✗</span>
             <span class="asset-pill missing">App logo / wordmark ✗</span>
             <span class="asset-pill missing">User avatar placeholder ✗</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Shared Infrastructure</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">assets/glow.css — shared styles, color tokens, phone shell, mobile responsive (440px)</span>
+            <span class="asset-pill have">assets/glow.js — back chevron, bottom nav injection, slide-in overlay menu (glowOpenMenu/glowCloseMenu)</span>
           </div>
         </div>
       </section>
@@ -659,7 +656,7 @@
       </section>
 
       <footer>
-        GlowAI — Build Status · 17 screens total · 10 done, 7 remaining
+        GlowAI — Build Status · 17 screens total · 15 done, 2 remaining
       </footer>
     </div>
   </body>

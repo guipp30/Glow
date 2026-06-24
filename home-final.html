@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Glow – Budget Kitchen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/glow.css" />
+    <style>
+      .main {
+        position: absolute;
+        inset: 0;
+        background: #fdf9f7;
+        overflow-y: auto;
+        padding-top: 40px;
+        padding-bottom: 120px;
+      }
+
+      /* ─── Page header ─── */
+      .page-header {
+        background: #fff;
+        padding: 24px 20px 16px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+      .header-left {
+        display: flex;
+        flex-direction: column;
+      }
+      .eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.1px;
+        text-transform: uppercase;
+        color: #b2a8a3;
+        line-height: 16.5px;
+      }
+      .title-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 4px;
+      }
+      .page-title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 30px;
+        color: #696361;
+      }
+      .chevron-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+      }
+      .settings-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+      }
+
+      /* ─── Main content padding ─── */
+      .content {
+        padding: 20px 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      /* ─── Progress card ─── */
+      .progress-card {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        padding: 16px 20px;
+        flex-shrink: 0;
+      }
+      .progress-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .progress-title-row .label {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        color: #696361;
+      }
+      .progress-title-row .pct {
+        font-size: 14px;
+        font-weight: 700;
+        color: #cd6338;
+        line-height: 20px;
+      }
+      .progress-bars {
+        display: flex;
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .progress-seg {
+        flex: 1;
+        height: 10px;
+        background: #fbf0eb;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .progress-seg-fill {
+        height: 100%;
+        background: #cd6338;
+        border-radius: 999px;
+      }
+      .progress-labels {
+        display: flex;
+        margin-top: 10px;
+      }
+      .progress-labels span {
+        flex: 1;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 15px;
+        color: #cd6338;
+        text-align: center;
+      }
+      .progress-labels span:first-child {
+        text-align: left;
+      }
+      .progress-labels span:last-child {
+        text-align: right;
+      }
+      .progress-labels span.inactive {
+        color: #b2a8a3;
+      }
+
+      /* ─── Next steps ─── */
+      .next-steps-section {
+        flex-shrink: 0;
+      }
+      .section-heading {
+        font-size: 16px;
+        font-weight: 700;
+        font-style: italic;
+        line-height: 24px;
+        color: #696361;
+        margin-bottom: 12px;
+      }
+      .checklist {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .check-item {
+        background: #fff;
+        border: 1.5px solid rgba(102, 184, 86, 0.4);
+        border-radius: 16px;
+        padding: 15.5px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .check-item.todo {
+        border-color: #fbf0eb;
+      }
+
+      .check-icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 14px;
+        background: #66b856;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .check-icon-empty {
+        width: 20px;
+        height: 20px;
+        border-radius: 14px;
+        border: 1.5px solid #e4d7d1;
+        flex-shrink: 0;
+      }
+      .check-text {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        color: #b2a8a3;
+        text-decoration: line-through;
+      }
+      .check-item.todo .check-text {
+        color: #696361;
+        text-decoration: none;
+      }
+
+      /* ─── Your Picks ─── */
+      .picks-section {
+        flex-shrink: 0;
+      }
+      .picks-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .picks-header .label {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        color: #696361;
+      }
+      .picks-header .budget-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #b2a8a3;
+        line-height: 16px;
+      }
+      .picks-budget-bar {
+        height: 6px;
+        background: #fbf0eb;
+        border-radius: 999px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+      .picks-budget-fill {
+        height: 100%;
+        background: #cd6338;
+        border-radius: 999px;
+        width: 25%; /* €200 of €800 */
+      }
+
+      .picks-scroll {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 4px 4px 8px;
+        margin: 0 -4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .picks-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .pick-card {
+        width: 110px;
+        flex-shrink: 0;
+        background: #fff;
+        border: 1px solid #eb9d7e;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      }
+      .pick-img {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid #eb9d7e;
+        padding: 1px;
+      }
+      .pick-img img {
+        width: 80px;
+        height: 78px;
+        object-fit: cover;
+      }
+      .pick-info {
+        padding: 10px;
+      }
+      .pick-name {
+        font-size: 11px;
+        font-weight: 400;
+        line-height: 17.5px;
+        color: #696361;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .pick-price {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px;
+        color: #cd6338;
+        margin-top: 4px;
+      }
+
+      .pick-view-all {
+        width: 90px;
+        height: 130px;
+        flex-shrink: 0;
+        border: 1.5px dashed #e4d7d1;
+        border-radius: 16px;
+        background: none;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: inherit;
+      }
+      .pick-view-all span {
+        font-size: 11px;
+        font-weight: 600;
+        color: #b2a8a3;
+        line-height: 16.5px;
+      }
+
+      /* ─── Trending ─── */
+      .trending-section {
+        flex-shrink: 0;
+      }
+      .trending-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+      .trending-header .label {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px;
+        color: #696361;
+      }
+      .trending-header .sublabel {
+        font-size: 12px;
+        font-weight: 500;
+        color: #b2a8a3;
+      }
+
+      .trends-scroll {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .trends-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .trend-card {
+        width: 110px;
+        height: 92px;
+        flex-shrink: 0;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 8px;
+      }
+      .trend-card img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .trend-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(102, 102, 102, 0.4) 0%,
+          rgba(0, 0, 0, 0.4) 100%
+        );
+      }
+      .trend-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        line-height: 20px;
+        white-space: nowrap;
+      }
+      .trend-arrow {
+        position: relative;
+        z-index: 1;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone" data-nav-active="Home">
+      <div class="main">
+        <!-- Page header -->
+        <div class="page-header">
+          <div class="header-left">
+            <p class="eyebrow">Glow</p>
+            <div class="title-row">
+              <h1 class="page-title">Budget Kitchen</h1>
+              <button class="chevron-btn" aria-label="Switch project">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M6 9l6 6 6-6"
+                    stroke="#696361"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <button class="settings-btn" aria-label="Settings">
+            <img src="assets/icons/settings.svg" alt="" />
+          </button>
+        </div>
+
+        <div class="content">
+          <!-- Progress card -->
+          <div class="progress-card">
+            <div class="progress-title-row">
+              <span class="label">Progress</span>
+              <span class="pct">50%</span>
+            </div>
+            <div class="progress-bars">
+              <div class="progress-seg">
+                <div class="progress-seg-fill" style="width: 100%"></div>
+              </div>
+              <div class="progress-seg">
+                <div class="progress-seg-fill" style="width: 100%"></div>
+              </div>
+              <div class="progress-seg">
+                <div class="progress-seg-fill" style="width: 27%"></div>
+              </div>
+              <div class="progress-seg">
+                <div class="progress-seg-fill" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="progress-labels">
+              <span>Room Setup</span>
+              <span>Design</span>
+              <span class="inactive">Shopping</span>
+              <span class="inactive">Done</span>
+            </div>
+          </div>
+
+          <!-- Next steps -->
+          <div class="next-steps-section">
+            <p class="section-heading">Next steps</p>
+            <div class="checklist">
+              <div class="check-item">
+                <div class="check-icon">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="#fff"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="check-text">Room measured · 3D canvas built</span>
+              </div>
+              <div class="check-item">
+                <div class="check-icon">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="#fff"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="check-text">Inspiration photo added</span>
+              </div>
+              <div class="check-item">
+                <div class="check-icon">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="#fff"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="check-text">Mood: "modern and bright"</span>
+              </div>
+              <div class="check-item">
+                <div class="check-icon">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="#fff"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="check-text">Dining table preserved</span>
+              </div>
+              <div class="check-item">
+                <div class="check-icon">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="#fff"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span class="check-text">Budget set · €800</span>
+              </div>
+              <div class="check-item todo">
+                <div class="check-icon-empty"></div>
+                <span class="check-text">Items ordered</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Your Picks -->
+          <div class="picks-section">
+            <div class="picks-header">
+              <span class="label">Your Picks</span>
+              <span class="budget-label">€200 of €800</span>
+            </div>
+            <div class="picks-budget-bar">
+              <div class="picks-budget-fill"></div>
+            </div>
+            <div class="picks-scroll">
+              <div class="pick-card">
+                <div class="pick-img">
+                  <img
+                    src="assets/decorative/shopping-list/cabinets.jpg"
+                    alt="Knoxhult Cabinets"
+                  />
+                </div>
+                <div class="pick-info">
+                  <p class="pick-name">Knoxhult Cabinets</p>
+                  <p class="pick-price">€349</p>
+                </div>
+              </div>
+              <div class="pick-card">
+                <div class="pick-img">
+                  <img
+                    src="assets/decorative/shopping-list/lamp.png"
+                    alt="Trettiotvå Lamp"
+                  />
+                </div>
+                <div class="pick-info">
+                  <p class="pick-name">Trettiotvå Lamp</p>
+                  <p class="pick-price">€160</p>
+                </div>
+              </div>
+              <div class="pick-card">
+                <div class="pick-img">
+                  <img
+                    src="assets/decorative/shopping-list/sink.jpg"
+                    alt="Hillesjön Sink"
+                  />
+                </div>
+                <div class="pick-info">
+                  <p class="pick-name">Hillesjön Sink</p>
+                  <p class="pick-price">€120</p>
+                </div>
+              </div>
+              <button
+                class="pick-view-all"
+                onclick="window.location.href = 'shopping-list.html'"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"
+                    stroke="#b2a8a3"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <span>View all</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Trending this month -->
+          <div class="trending-section">
+            <div class="trending-header">
+              <span class="label">Trending this month</span>
+              <span class="sublabel">Looking for fresh ideas?</span>
+            </div>
+            <div class="trends-scroll">
+              <div class="trend-card">
+                <img
+                  src="assets/decorative/trends/Jaapndi.avif"
+                  onerror="this.src = 'assets/decorative/trends/Jaapndi.png'"
+                  alt=""
+                />
+                <span class="trend-name">Japandi</span>
+                <div class="trend-arrow">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="trend-card">
+                <img
+                  src="assets/decorative/trends/Biophilic.avif"
+                  onerror="this.src = 'assets/decorative/trends/Biophilic.png'"
+                  alt=""
+                />
+                <span class="trend-name">Biophilic</span>
+                <div class="trend-arrow">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="trend-card">
+                <img
+                  src="assets/decorative/trends/Vintage.avif"
+                  onerror="this.src = 'assets/decorative/trends/Vintage.png'"
+                  alt=""
+                />
+                <span class="trend-name">Vintage</span>
+                <div class="trend-arrow">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="trend-card">
+                <img
+                  src="assets/decorative/trends/Minimalism.avif"
+                  onerror="this.src = 'assets/decorative/trends/Minimalism.png'"
+                  alt=""
+                />
+                <span class="trend-name">Minimalism</span>
+                <div class="trend-arrow">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="trend-card">
+                <img
+                  src="assets/decorative/trends/Art Deco.avif"
+                  onerror="this.src = 'assets/decorative/trends/Art Deco.png'"
+                  alt=""
+                />
+                <span class="trend-name">Art Deco</span>
+                <div class="trend-arrow">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      stroke="white"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- .content -->
+      </div>
+      <!-- .main -->
+    </div>
+    <script src="assets/glow.js"></script>
+  </body>
+</html>

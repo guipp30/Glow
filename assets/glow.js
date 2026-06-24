@@ -16,36 +16,28 @@ function initBackButtons() {
   });
 }
 
-/* Nav items config — order matches HTML */
+/* Nav items config */
 const NAV_ITEMS = [
   { label: 'Home',     icon: 'assets/icons/home.svg',     href: 'index.html' },
-  { label: 'Projects', icon: 'assets/icons/projects.svg', href: '#' },
+  { label: 'Projects', icon: 'assets/icons/projects.svg', href: 'folders.html' },
   { label: 'Saves',    icon: 'assets/icons/bookmark.svg', href: '#' },
-  { label: 'Menu',     icon: 'assets/icons/menu.svg',     href: '#' },
+  { label: 'Menu',     icon: 'assets/icons/menu.svg',     href: '#', onclick: 'glowOpenMenu()' },
 ];
 
-/*
- * Inject bottom nav into .phone.
- * Mark the active item via data-nav-active="Home" (or "Projects" etc.) on .phone.
- * If the attribute is absent, no item is active.
- */
 function initBottomNav() {
   const phone = document.querySelector('.phone');
   if (!phone) return;
-
-  /* Opt-out: add data-no-nav on .phone to suppress injection */
   if ('noNav' in phone.dataset) return;
-
-  /* Skip if a .bottom-nav-wrap already exists (hand-coded in HTML) */
   if (phone.querySelector('.bottom-nav-wrap')) return;
 
   const activeLabel = phone.dataset.navActive || '';
 
-  const items = NAV_ITEMS.map(({ label, icon, href }) => {
+  const items = NAV_ITEMS.map(({ label, icon, href, onclick }) => {
     const isActive = label === activeLabel;
     const tag = href && href !== '#' ? 'a' : 'button';
     const hrefAttr = tag === 'a' ? `href="${href}"` : '';
-    return `<${tag} class="nav-item${isActive ? ' active' : ''}" ${hrefAttr}>
+    const onclickAttr = onclick ? `onclick="${onclick}"` : '';
+    return `<${tag} class="nav-item${isActive ? ' active' : ''}" ${hrefAttr} ${onclickAttr}>
       <img src="${icon}" alt="" />
       <span>${label}</span>
     </${tag}>`;
@@ -57,7 +49,73 @@ function initBottomNav() {
   phone.appendChild(wrap);
 }
 
+/* ─── Slide-in overlay menu ─── */
+const CHEVRON_R = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#b2a8a3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CHEVRON_R_EDIT = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#e16d3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const PERSON_SVG = `<svg width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="9" r="5" stroke="#696361" stroke-width="1.8"/><path d="M4 23c0-4.418 4.029-8 9-8s9 3.582 9 8" stroke="#696361" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const CLOSE_SVG = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#696361" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+
+function menuRows(items) {
+  return items.map(([label, right]) =>
+    `<div class="menu-row"><span>${label}</span>${right
+      ? `<span class="menu-row-right">${right}&nbsp;${CHEVRON_R}</span>`
+      : CHEVRON_R
+    }</div>`
+  ).join('');
+}
+
+function buildMenuOverlay() {
+  return `<div class="menu-overlay" id="glowMenuOverlay" aria-hidden="true">
+    <div class="menu-backdrop" onclick="glowCloseMenu()"></div>
+    <div class="menu-panel">
+      <div class="menu-close-row">
+        <button class="menu-close-btn" onclick="glowCloseMenu()" aria-label="Close menu">${CLOSE_SVG}</button>
+      </div>
+      <div class="menu-profile-row">
+        <div class="menu-avatar">${PERSON_SVG}</div>
+        <div class="menu-user">
+          <span class="menu-user-name">Lucas Fernandes</span>
+          <span class="menu-user-email">lucas@email.com</span>
+          <button class="menu-edit-btn">Edit Profile ${CHEVRON_R_EDIT}</button>
+        </div>
+      </div>
+      <div class="menu-stats-row">
+        <div class="menu-stat-card"><span class="menu-stat-num">1</span><span class="menu-stat-lbl">Projects</span></div>
+        <div class="menu-stat-card"><span class="menu-stat-num">1</span><span class="menu-stat-lbl">Rooms</span></div>
+        <div class="menu-stat-card"><span class="menu-stat-num">€21</span><span class="menu-stat-lbl">Saved</span></div>
+      </div>
+      <div class="menu-sep"></div>
+      <p class="menu-section-lbl">My Account</p>
+      ${menuRows([['Change Email'], ['Change Password'], ['Notifications'], ['Language', 'English']])}
+      <p class="menu-section-lbl">App Preferences</p>
+      ${menuRows([['Currency', 'EUR'], ['Measurement Units', 'Metric'], ['Default Room Style', 'Modern']])}
+      <p class="menu-section-lbl">Support</p>
+      ${menuRows([['Help Centre'], ['Send Feedback'], ['Rate the App']])}
+      <p class="menu-section-lbl">Legal</p>
+      ${menuRows([['Privacy Policy'], ['Terms of Service']])}
+    </div>
+  </div>`;
+}
+
+function initMenuOverlay() {
+  const phone = document.querySelector('.phone');
+  if (!phone || 'noNav' in phone.dataset) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = buildMenuOverlay();
+  phone.appendChild(tmp.firstElementChild);
+}
+
+window.glowOpenMenu = function () {
+  const o = document.getElementById('glowMenuOverlay');
+  if (o) { o.classList.add('open'); o.setAttribute('aria-hidden', 'false'); }
+};
+window.glowCloseMenu = function () {
+  const o = document.getElementById('glowMenuOverlay');
+  if (o) { o.classList.remove('open'); o.setAttribute('aria-hidden', 'true'); }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initBackButtons();
   initBottomNav();
+  initMenuOverlay();
 });
