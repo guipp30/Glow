@@ -1,5 +1,9 @@
 /* ─── GlowAI shared styles ─── */
-
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 *,
 *::before,
 *::after {
@@ -25,6 +29,14 @@
   --success-600: #5da74e;
   --info-500: #3db2e1;
 }
+/* ─── Hide all scrollbars globally ─── */
+* {
+  scrollbar-width: none;
+}
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* ─── Body ─── */
 body {
   background: var(--bg-page);
@@ -40,7 +52,10 @@ body {
 }
 
 /* Hide real cursor only inside the phone */
-.phone, .phone * { cursor: none !important; }
+.phone,
+.phone * {
+  cursor: none !important;
+}
 
 /* Custom cursor dot — lives inside .phone, positioned absolutely */
 .cursor-dot {
@@ -54,7 +69,10 @@ body {
   pointer-events: none;
   opacity: 0;
   transform: translate(-50%, -50%);
-  transition: opacity 0.2s ease, width 0.3s ease, height 0.3s ease;
+  transition:
+    opacity 0.2s ease,
+    width 0.3s ease,
+    height 0.3s ease;
 }
 
 /* ─── Phone shell ─── */
