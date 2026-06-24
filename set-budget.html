@@ -16,18 +16,21 @@
     <link rel="stylesheet" href="assets/glow.css" />
     <style>
       .main {
-        position: absolute;
-        inset: 0;
+        flex: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
-        padding: 40px 0 160px;
+        padding: 40px 0 0;
       }
 
       .content {
         flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
         display: flex;
         flex-direction: column;
-        padding-bottom: 8px;
       }
 
       .heading {
