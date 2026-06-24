@@ -88,8 +88,8 @@ function buildMenuOverlay() {
       <div class="menu-profile-row">
         <div class="menu-avatar">${PERSON_SVG}</div>
         <div class="menu-user">
-          <span class="menu-user-name">Lucas Fernandes</span>
-          <span class="menu-user-email">lucas@email.com</span>
+          <span class="menu-user-name">Mariana Fernandes</span>
+          <span class="menu-user-email">mariana@email.com</span>
           <button class="menu-edit-btn">Edit Profile ${CHEVRON_R_EDIT}</button>
         </div>
       </div>
@@ -139,23 +139,27 @@ window.glowCloseMenu = function () {
 };
 
 function initCustomCursor() {
-  const phone = document.querySelector('.phone');
+  const phone = document.querySelector(".phone");
   if (!phone) return;
 
-  const dot = document.createElement('div');
-  dot.className = 'cursor-dot';
+  const dot = document.createElement("div");
+  dot.className = "cursor-dot";
   phone.appendChild(dot);
 
-  phone.addEventListener('mousemove', (e) => {
+  phone.addEventListener("mousemove", (e) => {
     const rect = phone.getBoundingClientRect();
     const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
     const y = Math.min(Math.max(e.clientY - rect.top, 0), rect.height);
-    dot.style.left = x + 'px';
-    dot.style.top = y + 'px';
+    dot.style.left = x + "px";
+    dot.style.top = y + "px";
   });
 
-  phone.addEventListener('mouseenter', () => { dot.style.opacity = '1'; });
-  phone.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
+  phone.addEventListener("mouseenter", () => {
+    dot.style.opacity = "1";
+  });
+  phone.addEventListener("mouseleave", () => {
+    dot.style.opacity = "0";
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
