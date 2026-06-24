@@ -166,7 +166,7 @@ body {
 }
 
 /* ─── Mobile responsive (≤ 430px — actual phones) ─── */
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 440px) {
   /* Remove desktop centering — go full bleed */
   body {
     display: block;

@@ -18,7 +18,7 @@ function initBackButtons() {
 
 /* Nav items config — order matches HTML */
 const NAV_ITEMS = [
-  { label: 'Home',     icon: 'assets/icons/home.svg',     href: 'home-welcome.html' },
+  { label: 'Home',     icon: 'assets/icons/home.svg',     href: 'index.html' },
   { label: 'Projects', icon: 'assets/icons/projects.svg', href: '#' },
   { label: 'Saves',    icon: 'assets/icons/bookmark.svg', href: '#' },
   { label: 'Menu',     icon: 'assets/icons/menu.svg',     href: '#' },
