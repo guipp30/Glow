@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Glow – Item Swap 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/glow.css" />
+  <style>
+    .main {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding-top: 40px;
+      overflow-y: auto;
+      padding-bottom: 180px;
+    }
+
+    /* ─── Render badge ─── */
+    .render-badge-row {
+      padding: 0 24px 12px;
+      flex-shrink: 0;
+    }
+    .render-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #696361;
+      border-radius: 999px;
+      padding: 6px 12px;
+    }
+    .render-badge span {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+    }
+    .render-badge .sep { color: rgba(255,255,255,0.4); font-weight: 400; }
+    .render-badge .sub { opacity: 1; }
+
+    /* ─── Render image ─── */
+    .render-wrap {
+      margin: 0 24px;
+      border-radius: 24px;
+      overflow: hidden;
+      position: relative;
+      height: 210px;
+      background: #111;
+      flex-shrink: 0;
+    }
+    .render-wrap video,
+    .render-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .fullscreen-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ─── Style tags ─── */
+    .tags-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 24px 0;
+      flex-shrink: 0;
+    }
+    .tag {
+      background: #ecf7fc;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #22627c;
+    }
+
+    /* ─── Description ─── */
+    .render-desc {
+      padding: 12px 24px 0;
+      font-size: 14px;
+      line-height: 22.75px;
+      color: #8a827f;
+      flex-shrink: 0;
+    }
+
+    /* ─── Swap success banner ─── */
+    .swap-banner {
+      margin: 16px 24px 0;
+      background: #f0f8ee;
+      border: 1px solid #66b856;
+      border-radius: 16px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .swap-check {
+      width: 32px;
+      height: 32px;
+      border-radius: 20px;
+      background: #66b856;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .swap-info { display: flex; flex-direction: column; }
+    .swap-info strong {
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 16px;
+      color: #38652f;
+    }
+    .swap-info span {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      color: #66b856;
+    }
+
+    /* ─── Product list ─── */
+    .product-section {
+      padding: 16px 24px 0;
+      flex-shrink: 0;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #b2a8a3;
+      margin-bottom: 8px;
+    }
+
+    .product-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #fbf0eb;
+      padding: 10px 0 11px;
+    }
+    .product-left { display: flex; flex-direction: column; gap: 4px; }
+    .product-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #5da74e;
+      flex-shrink: 0;
+    }
+    .product-name {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #696361;
+    }
+    .product-price {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: #696361;
+      padding-left: 16px;
+    }
+    .swap-icon-btn {
+      padding: 12px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .total-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0 0;
+    }
+    .total-label, .total-price {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #696361;
+    }
+
+    /* ─── Action buttons ─── */
+    .action-section {
+      padding: 24px 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .btn-continue {
+      width: 100%;
+      height: 52px;
+      background: #cd6338;
+      border: none;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.128px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-continue:hover { background: #b8512d; }
+
+    .secondary-btns {
+      display: flex;
+      gap: 16px;
+    }
+    .btn-outline {
+      flex: 1;
+      height: 52px;
+      background: none;
+      border: 1px solid #5f2e1a;
+      border-radius: 16px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.128px;
+      color: #5f2e1a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-outline:hover { background: #fcf2ee; }
+  </style>
+</head>
+<body>
+<div class="phone" data-nav-active="Home">
+
+  <div class="main">
+
+    <!-- Render badge -->
+    <div class="render-badge-row">
+      <div class="render-badge">
+        <span>Your Kitchen</span>
+        <span class="sep">·</span>
+        <span class="sub">render</span>
+      </div>
+    </div>
+
+    <!-- Render image -->
+    <div class="render-wrap">
+      <video autoplay muted playsinline loop>
+        <source src="assets/videos/kitchen_after.mp4" type="video/mp4" />
+      </video>
+      <button class="fullscreen-btn" aria-label="Fullscreen" onclick="openFullscreen()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V5a2 2 0 0 1 2-2h4M15 3h4a2 2 0 0 1 2 2v4M21 15v4a2 2 0 0 1-2 2h-4M9 21H5a2 2 0 0 1-2-2v-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Style tags -->
+    <div class="tags-row">
+      <span class="tag">Modern</span>
+      <span class="tag">Bright</span>
+    </div>
+
+    <!-- Description -->
+    <p class="render-desc">Clean lines, white surfaces, and warm lighting built around your dining table.</p>
+
+    <!-- Swap success banner -->
+    <div class="swap-banner">
+      <div class="swap-check">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path d="M2.5 7.5L5.5 10.5L12.5 4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="swap-info">
+        <strong>Swapped! Pendant Lamp · €120</strong>
+        <span>You saved €180</span>
+      </div>
+    </div>
+
+    <!-- Product list -->
+    <div class="product-section">
+      <p class="section-label">In this design</p>
+
+      <div class="product-row">
+        <div class="product-left">
+          <div class="product-name-row">
+            <div class="status-dot"></div>
+            <span class="product-name">KNOXHULT Cabinets</span>
+          </div>
+          <span class="product-price">€349</span>
+        </div>
+        <button class="swap-icon-btn" onclick="window.location.href='item-swap-1.html'" aria-label="Swap item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M7 16L3 12M3 12L7 8M3 12H15M17 8L21 12M21 12L17 16M21 12H9" stroke="#b2a8a3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="product-row">
+        <div class="product-left">
+          <div class="product-name-row">
+            <div class="status-dot"></div>
+            <span class="product-name">TRETTIOTVÅ Lamp</span>
+          </div>
+          <span class="product-price">€120</span>
+        </div>
+        <button class="swap-icon-btn" onclick="window.location.href='item-swap-1.html'" aria-label="Swap item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M7 16L3 12M3 12L7 8M3 12H15M17 8L21 12M21 12L17 16M21 12H9" stroke="#b2a8a3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="product-row">
+        <div class="product-left">
+          <div class="product-name-row">
+            <div class="status-dot"></div>
+            <span class="product-name">HILLESJÖN Sink</span>
+          </div>
+          <span class="product-price">€196</span>
+        </div>
+        <button class="swap-icon-btn" onclick="window.location.href='item-swap-1.html'" aria-label="Swap item">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M7 16L3 12M3 12L7 8M3 12H15M17 8L21 12M21 12L17 16M21 12H9" stroke="#b2a8a3" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="total-row">
+        <span class="total-label">Total</span>
+        <span class="total-price">€845</span>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-section">
+      <button class="btn-continue" onclick="window.location.href='shopping-list.html'">Continue</button>
+      <div class="secondary-btns">
+        <button class="btn-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" stroke="#5f2e1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Save to Folder
+        </button>
+        <button class="btn-outline">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" stroke="#5f2e1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Share
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<script src="assets/glow.js"></script>
+<script>
+  function openFullscreen() {
+    const v = document.querySelector('video');
+    if (v.requestFullscreen) v.requestFullscreen();
+    else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+  }
+</script>
+</body>
+</html>
