@@ -165,6 +165,54 @@ body {
   pointer-events: none;
 }
 
+/* ─── Mobile responsive (≤ 430px — actual phones) ─── */
+@media screen and (max-width: 430px) {
+  /* Remove desktop centering — go full bleed */
+  body {
+    display: block;
+    min-height: 100dvh;
+  }
+
+  /* Phone shell fills the whole screen */
+  .phone {
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Push top-nav below notch / Dynamic Island */
+  .top-nav {
+    padding-top: max(16px, env(safe-area-inset-top, 0px)) !important;
+  }
+
+  /* scanning-room's absolute top-nav has 20px base */
+  .phone[data-no-nav] .top-nav {
+    padding-top: max(20px, env(safe-area-inset-top, 0px)) !important;
+  }
+
+  /* generating.html has no .top-nav, pad .main directly */
+  .main {
+    padding-top: max(40px, env(safe-area-inset-top, 0px)) !important;
+  }
+
+  /* Bottom nav clears home indicator */
+  .bottom-nav-wrap {
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Pinned CTA clears home indicator */
+  .cta {
+    bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Scrollable lists — pad content above nav + home bar */
+  .scroll-area {
+    padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
 /* ─── Typography ─── */
 .heading-lg {         /* home / onboarding */
   font-size: 24px;
