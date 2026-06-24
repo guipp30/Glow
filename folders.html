@@ -1,249 +1,286 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Glow – Projects</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/glow.css" />
-  <style>
-    .main {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      padding-top: 40px;
-      padding-bottom: 120px;
-      overflow-y: auto;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Glow – Projects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/glow.css" />
+    <style>
+      .main {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        padding-top: 40px;
+        padding-bottom: 120px;
+        overflow-y: auto;
+      }
 
-    /* ─── Page header ─── */
-    .page-header {
-      background: #fff;
-      padding: 24px 20px 16px;
-      flex-shrink: 0;
-    }
-    .eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.1px;
-      text-transform: uppercase;
-      color: #b2a8a3;
-      line-height: 16.5px;
-    }
-    .page-title {
-      font-size: 30px;
-      font-weight: 700;
-      line-height: 36px;
-      color: #696361;
-      margin-top: 2px;
-    }
-    .page-subtitle {
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 16px;
-      color: #b2a8a3;
-      margin-top: 4px;
-    }
+      /* ─── Page header ─── */
+      .page-header {
+        background: #fff;
+        padding: 24px 20px 16px;
+        flex-shrink: 0;
+      }
+      .eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.1px;
+        text-transform: uppercase;
+        color: #b2a8a3;
+        line-height: 16.5px;
+      }
+      .page-title {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 36px;
+        color: #696361;
+        margin-top: 2px;
+      }
+      .page-subtitle {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: #b2a8a3;
+        margin-top: 4px;
+      }
 
-    /* ─── Search bar ─── */
-    .search-bar-wrap {
-      background: #fff;
-      border-bottom: 1px solid #fbf0eb;
-      padding: 12px 20px 13px;
-      flex-shrink: 0;
-    }
-    .search-bar {
-      background: #fdf6f4;
-      border-radius: 16px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 16px;
-    }
-    .search-bar svg { flex-shrink: 0; }
-    .search-bar span {
-      font-size: 14px;
-      font-weight: 400;
-      color: rgba(105, 99, 97, 0.5);
-      line-height: normal;
-    }
+      /* ─── Search bar ─── */
+      .search-bar-wrap {
+        background: #fff;
+        border-bottom: 1px solid #fbf0eb;
+        padding: 12px 20px 13px;
+        flex-shrink: 0;
+      }
+      .search-bar {
+        background: #fdf6f4;
+        border-radius: 16px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 16px;
+      }
+      .search-bar svg {
+        flex-shrink: 0;
+      }
+      .search-bar span {
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(105, 99, 97, 0.5);
+        line-height: normal;
+      }
 
-    /* ─── Folders grid ─── */
-    .folders-grid {
-      padding: 20px 20px 0;
-      display: flex;
-      gap: 22px;
-      flex-wrap: wrap;
-      flex-shrink: 0;
-    }
+      /* ─── Folders grid ─── */
+      .folders-grid {
+        padding: 20px 20px 0;
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+        flex-shrink: 0;
+      }
 
-    /* My House folder card */
-    .folder-card {
-      width: 169px;
-      height: 170px;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-    }
-    .folder-thumb {
-      height: 110px;
-      background: #f6d2c3;
-      border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 4px;
-      padding: 8px;
-    }
-    .folder-thumb-img {
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-    }
-    .folder-thumb-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .folder-thumb-img::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-    }
-    .folder-info {
-      padding: 12px;
-      flex: 1;
-    }
-    .folder-name {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 20px;
-      color: #696361;
-    }
-    .folder-count {
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 16px;
-      color: #b2a8a3;
-    }
+      /* My House folder card */
+      .folder-card {
+        width: 169px;
+        height: 170px;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+      .folder-thumb {
+        height: 110px;
+        background: #f6d2c3;
+        border-radius: 16px;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 4px;
+        padding: 8px;
+      }
+      .folder-thumb-img {
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+      .folder-thumb-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .folder-thumb-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+      .folder-info {
+        padding: 12px;
+        flex: 1;
+      }
+      .folder-name {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #696361;
+      }
+      .folder-count {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        color: #b2a8a3;
+      }
 
-    /* New Folder button */
-    .folder-new {
-      width: 169px;
-      height: 170px;
-      border: 2px dashed #e4d7d1;
-      border-radius: 24px;
-      background: none;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-shrink: 0;
-      font-family: inherit;
-      transition: border-color 0.15s;
-    }
-    .folder-new:hover { border-color: #cd6338; }
+      /* New Folder button */
+      .folder-new {
+        width: 169px;
+        height: 170px;
+        border: 2px dashed #e4d7d1;
+        border-radius: 24px;
+        background: none;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        flex-shrink: 0;
+        font-family: inherit;
+        transition: border-color 0.15s;
+      }
+      .folder-new:hover {
+        border-color: #cd6338;
+      }
 
-    .folder-new-icon {
-      width: 40px;
-      height: 40px;
-      background: #fcf2ee;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .folder-new span {
-      font-size: 14px;
-      font-weight: 600;
-      color: #b2a8a3;
-      line-height: 20px;
-    }
-  </style>
-</head>
-<body>
-<div class="phone" data-nav-active="Projects">
+      .folder-new-icon {
+        width: 40px;
+        height: 40px;
+        background: #fcf2ee;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .folder-new span {
+        font-size: 14px;
+        font-weight: 600;
+        color: #b2a8a3;
+        line-height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor rounded"></div>
+    <div class="phone" data-nav-active="Projects">
+      <div class="main">
+        <!-- Page header -->
+        <div class="page-header">
+          <p class="eyebrow">Your Space</p>
+          <h1 class="page-title">Projects</h1>
+          <p class="page-subtitle">3 folders · 14 saved items</p>
+        </div>
 
-  <div class="main">
+        <!-- Search bar -->
+        <div class="search-bar-wrap">
+          <div class="search-bar">
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
+              <circle
+                cx="9"
+                cy="9"
+                r="6"
+                stroke="#696361"
+                stroke-width="1.6"
+                stroke-opacity="0.5"
+              />
+              <path
+                d="M13.5 13.5L17 17"
+                stroke="#696361"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-opacity="0.5"
+              />
+            </svg>
+            <span>Search folders &amp; items</span>
+          </div>
+        </div>
 
-    <!-- Page header -->
-    <div class="page-header">
-      <p class="eyebrow">Your Space</p>
-      <h1 class="page-title">Projects</h1>
-      <p class="page-subtitle">3 folders · 14 saved items</p>
-    </div>
+        <!-- Folders grid -->
+        <div class="folders-grid">
+          <!-- My House folder -->
+          <div class="folder-card">
+            <div class="folder-thumb">
+              <div class="folder-thumb-img">
+                <img
+                  src="assets/decorative/projects/dining_table.avif"
+                  onerror="
+                    this.src = 'assets/decorative/projects/dining_table.png'
+                  "
+                  alt=""
+                />
+              </div>
+              <div class="folder-thumb-img">
+                <img
+                  src="assets/decorative/projects/bedroom.avif"
+                  onerror="this.src = 'assets/decorative/projects/bedroom.png'"
+                  alt=""
+                />
+              </div>
+              <div class="folder-thumb-img">
+                <img
+                  src="assets/decorative/projects/balcony.avif"
+                  onerror="this.src = 'assets/decorative/projects/balcony.png'"
+                  alt=""
+                />
+              </div>
+              <div class="folder-thumb-img">
+                <img
+                  src="assets/decorative/projects/garage.avif"
+                  onerror="this.src = 'assets/decorative/projects/garage.png'"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="folder-info">
+              <p class="folder-name">My House</p>
+              <p class="folder-count">4 items</p>
+            </div>
+          </div>
 
-    <!-- Search bar -->
-    <div class="search-bar-wrap">
-      <div class="search-bar">
-        <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
-          <circle cx="9" cy="9" r="6" stroke="#696361" stroke-width="1.6" stroke-opacity="0.5"/>
-          <path d="M13.5 13.5L17 17" stroke="#696361" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.5"/>
-        </svg>
-        <span>Search folders &amp; items</span>
+          <!-- New Folder button -->
+          <button class="folder-new" aria-label="Create new folder">
+            <div class="folder-new-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 5v14M5 12h14"
+                  stroke="#cd6338"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <span>New Folder</span>
+          </button>
+        </div>
       </div>
     </div>
-
-    <!-- Folders grid -->
-    <div class="folders-grid">
-
-      <!-- My House folder -->
-      <div class="folder-card">
-        <div class="folder-thumb">
-          <div class="folder-thumb-img">
-            <img src="assets/decorative/projects/dining_table.avif"
-                 onerror="this.src='assets/decorative/projects/dining_table.png'" alt="" />
-          </div>
-          <div class="folder-thumb-img">
-            <img src="assets/decorative/projects/bedroom.avif"
-                 onerror="this.src='assets/decorative/projects/bedroom.png'" alt="" />
-          </div>
-          <div class="folder-thumb-img">
-            <img src="assets/decorative/projects/balcony.avif"
-                 onerror="this.src='assets/decorative/projects/balcony.png'" alt="" />
-          </div>
-          <div class="folder-thumb-img">
-            <img src="assets/decorative/projects/garage.avif"
-                 onerror="this.src='assets/decorative/projects/garage.png'" alt="" />
-          </div>
-        </div>
-        <div class="folder-info">
-          <p class="folder-name">My House</p>
-          <p class="folder-count">4 items</p>
-        </div>
-      </div>
-
-      <!-- New Folder button -->
-      <button class="folder-new" aria-label="Create new folder">
-        <div class="folder-new-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12h14" stroke="#cd6338" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span>New Folder</span>
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-<script src="assets/glow.js"></script>
-</body>
+    <script src="assets/glow.js"></script>
+  </body>
 </html>

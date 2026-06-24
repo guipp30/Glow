@@ -1,233 +1,540 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Glow – Scanning Room</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/glow.css" />
-  <style>
-    /* Full-bleed dark shell override */
-    .phone { background: #111; box-shadow: none; }
-
-    .camera-video {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-
-    .cam-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.18) 40%, rgba(0,0,0,0.3) 100%);
-      pointer-events: none;
-    }
-
-    /* Top nav — dark variant */
-    .top-nav {
-      position: absolute; top: 0; left: 0; right: 0;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 20px 24px 12px; z-index: 20;
-    }
-    .back-btn {
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(12px);
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.18);
-      cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .step-label { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.7); }
-    .skip-btn {
-      background: none; border: none; cursor: pointer;
-      font-family: inherit; font-size: 16px; font-weight: 500;
-      color: rgba(255,255,255,0.55); letter-spacing: -0.128px;
-    }
-
-    .instruction-pill {
-      position: absolute; top: 100px; left: 50%; transform: translateX(-50%);
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.14); backdrop-filter: blur(16px) saturate(1.4);
-      border: 1px solid rgba(255,255,255,0.22); border-radius: 100px;
-      padding: 10px 20px; white-space: nowrap; z-index: 20;
-    }
-    .instruction-pill .dot {
-      width: 8px; height: 8px; background: #e16d3e; border-radius: 50%; flex-shrink: 0;
-      box-shadow: 0 0 6px rgba(225,109,62,0.6); animation: pulse-dot 1.4s ease-in-out infinite;
-    }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.6; transform: scale(0.85); }
-    }
-    .instruction-pill span { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9); }
-
-    .scan-frame {
-      position: absolute; left: 22px; top: 147px; width: 358px; height: 415px; z-index: 10;
-    }
-    .corner { position: absolute; width: 32px; height: 27px; }
-    .corner.tl { top: 0; left: 0;   border-top: 2.5px solid white; border-left: 2.5px solid white;  border-radius: 6px 0 0 0; }
-    .corner.tr { top: 0; right: 0;  border-top: 2.5px solid white; border-right: 2.5px solid white; border-radius: 0 6px 0 0; }
-    .corner.bl { bottom: 0; left: 0;  border-bottom: 2.5px solid white; border-left: 2.5px solid white;  border-radius: 0 0 0 6px; }
-    .corner.br { bottom: 0; right: 0; border-bottom: 2.5px solid white; border-right: 2.5px solid white; border-radius: 0 0 6px 0; }
-
-    .scan-line {
-      position: absolute; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(225,109,62,0.9) 40%, rgba(225,109,62,1) 50%, rgba(225,109,62,0.9) 60%, transparent);
-      box-shadow: 0 0 12px rgba(225,109,62,0.6); animation: sweep 2.4s ease-in-out infinite;
-    }
-    @keyframes sweep {
-      0%   { top: 0;    opacity: 0; }
-      8%   { opacity: 1; }
-      92%  { opacity: 1; }
-      100% { top: 100%; opacity: 0; }
-    }
-
-    .room-wireframe {
-      position: absolute; left: 22px; top: 147px;
-      width: 358px; height: 415px; pointer-events: none; z-index: 8;
-    }
-
-    .divider {
-      position: absolute; left: 6px; right: 6px; top: 571px;
-      height: 1px; background: rgba(255,255,255,0.08); z-index: 10;
-    }
-
-    .progress-section {
-      position: absolute; top: 590px; left: 0; right: 0;
-      display: flex; flex-direction: column; align-items: center; gap: 8px; z-index: 20;
-    }
-    .progress-pct {
-      font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.9);
-      letter-spacing: -0.5px; transition: opacity 0.3s;
-    }
-    .progress-label {
-      font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.45);
-      letter-spacing: 0.4px; text-transform: uppercase;
-    }
-    .progress-chips { display: flex; gap: 8px; margin-top: 4px; }
-    .chip {
-      font-size: 11px; font-weight: 600;
-      padding: 4px 12px; border-radius: 100px; white-space: nowrap;
-      transition: background 0.5s, color 0.5s, border-color 0.5s;
-    }
-    .chip.done    { background: #cd6338; color: #fff; border: 1px solid #cd6338; }
-    .chip.pending { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.35); border: 1px solid rgba(255,255,255,0.1); }
-  </style>
-</head>
-<body>
-<div class="phone" data-no-nav>
-
-  <video class="camera-video" id="scanVideo" autoplay muted playsinline>
-    <source src="assets/videos/kitchenBefore.mp4" type="video/mp4" />
-  </video>
-
-  <div class="cam-overlay"></div>
-
-  <div class="top-nav">
-    <button class="back-btn" onclick="history.back()" aria-label="Go back">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M6.62132 12C6.62132 11.3375 6.8846 10.7021 7.35277 10.2334V10.2324L13.5432 4.04296C13.9337 3.65255 14.5668 3.65247 14.9573 4.04296C15.3476 4.43345 15.3476 5.06653 14.9573 5.45702L8.76683 11.6475C8.67367 11.7411 8.62132 11.8678 8.62132 12C8.62132 12.1321 8.67367 12.2589 8.76683 12.3525L14.9573 18.543C15.3476 18.9335 15.3476 19.5665 14.9573 19.957C14.5668 20.3475 13.9337 20.3474 13.5432 19.957L7.35277 13.7676V13.7666C6.8846 13.2978 6.62132 12.6625 6.62132 12Z" fill="#fff"/>
-      </svg>
-    </button>
-    <span class="step-label">Step 2 of 5</span>
-    <button class="skip-btn" onclick="window.location.href='keeping-furniture.html'">Skip</button>
-  </div>
-
-  <div class="instruction-pill">
-    <div class="dot"></div>
-    <span>Move your phone slowly around the room</span>
-  </div>
-
-  <div class="scan-frame">
-    <div class="corner tl"></div>
-    <div class="corner tr"></div>
-    <div class="corner bl"></div>
-    <div class="corner br"></div>
-    <div class="scan-line"></div>
-  </div>
-
-  <svg class="room-wireframe" viewBox="0 0 358 415" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M 60 310 L 298 310 L 340 390 L 18 390 Z" fill="none" stroke="rgba(225,109,62,0.25)" stroke-width="1.2"/>
-    <line x1="60" y1="310" x2="298" y2="310" stroke="rgba(225,109,62,0.4)" stroke-width="1.2"/>
-    <line x1="60" y1="310" x2="18"  y2="390" stroke="rgba(225,109,62,0.25)" stroke-width="1"/>
-    <line x1="298" y1="310" x2="340" y2="390" stroke="rgba(225,109,62,0.25)" stroke-width="1"/>
-    <line x1="60" y1="130" x2="60"  y2="310" stroke="rgba(225,109,62,0.35)" stroke-width="1.2"/>
-    <line x1="298" y1="130" x2="298" y2="310" stroke="rgba(225,109,62,0.35)" stroke-width="1.2"/>
-    <line x1="60" y1="130" x2="298" y2="130" stroke="rgba(225,109,62,0.3)" stroke-width="1.2"/>
-    <line x1="18" y1="60" x2="60"  y2="130" stroke="rgba(225,109,62,0.2)" stroke-width="1"/>
-    <line x1="18" y1="60" x2="18"  y2="390" stroke="rgba(225,109,62,0.2)" stroke-width="1"/>
-    <line x1="340" y1="60" x2="298" y2="130" stroke="rgba(225,109,62,0.2)" stroke-width="1"/>
-    <line x1="340" y1="60" x2="340" y2="390" stroke="rgba(225,109,62,0.2)" stroke-width="1"/>
-    <line x1="18" y1="60" x2="340" y2="60" stroke="rgba(225,109,62,0.2)" stroke-width="1"/>
-    <rect x="22" y="160" width="36" height="130" rx="2" fill="none" stroke="rgba(225,109,62,0.45)" stroke-width="1" stroke-dasharray="4 3"/>
-    <text x="40" y="242" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" fill="rgba(225,109,62,0.7)">Cabinet</text>
-    <rect x="140" y="145" width="78" height="60" rx="2" fill="none" stroke="rgba(225,109,62,0.4)" stroke-width="1" stroke-dasharray="4 3"/>
-    <text x="179" y="215" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="8" fill="rgba(225,109,62,0.65)">Window</text>
-    <rect x="22" y="130" width="314" height="180" rx="0" fill="url(#scanGrad)" opacity="0.08"/>
-    <defs>
-      <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#e16d3e" stop-opacity="0.8"/>
-        <stop offset="100%" stop-color="#e16d3e" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-  </svg>
-
-  <div class="divider"></div>
-
-  <div class="progress-section">
-    <span class="progress-pct" id="pctLabel">0%</span>
-    <span class="progress-label">Scanning in progress</span>
-    <div class="progress-chips">
-      <span class="chip pending" id="chipWalls">Walls</span>
-      <span class="chip pending" id="chipFloor">Floor</span>
-      <span class="chip pending" id="chipCeiling">Ceiling</span>
-      <span class="chip pending" id="chipObjects">Objects</span>
-    </div>
-  </div>
-
-</div>
-<script src="assets/glow.js"></script>
-<script>
-  const video = document.getElementById('scanVideo');
-  const pctLabel = document.getElementById('pctLabel');
-  const chips = [
-    { el: document.getElementById('chipWalls'),   threshold: 0.20 },
-    { el: document.getElementById('chipFloor'),   threshold: 0.45 },
-    { el: document.getElementById('chipCeiling'), threshold: 0.70 },
-    { el: document.getElementById('chipObjects'), threshold: 0.90 },
-  ];
-
-  function tick() {
-    if (!video.duration) return;
-    const progress = Math.min(video.currentTime / video.duration, 1);
-    pctLabel.textContent = Math.round(progress * 100) + '%';
-    chips.forEach(c => {
-      if (progress >= c.threshold) {
-        c.el.classList.replace('pending', 'done');
-        if (!c.el.textContent.includes('✓')) c.el.textContent += ' ✓';
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Glow – Scanning Room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/glow.css" />
+    <style>
+      /* Full-bleed dark shell override */
+      .phone {
+        background: #111;
+        box-shadow: none;
       }
-    });
-  }
 
-  video.addEventListener('timeupdate', tick);
-  video.addEventListener('ended', () => {
-    setTimeout(() => { window.location.href = 'keeping-furniture.html'; }, 1000);
-  });
+      .camera-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
 
-  video.addEventListener('error', () => {
-    let start = Date.now(), duration = 8000;
-    const iv = setInterval(() => {
-      const progress = Math.min((Date.now() - start) / duration, 1);
-      pctLabel.textContent = Math.round(progress * 100) + '%';
-      chips.forEach(c => {
-        if (progress >= c.threshold && !c.el.classList.contains('done')) {
-          c.el.classList.replace('pending', 'done');
-          c.el.textContent += ' ✓';
+      .cam-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.38) 0%,
+          rgba(0, 0, 0, 0.18) 40%,
+          rgba(0, 0, 0, 0.3) 100%
+        );
+        pointer-events: none;
+      }
+
+      /* Top nav — dark variant */
+      .top-nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 24px 12px;
+        z-index: 20;
+      }
+      .back-btn {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .step-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .skip-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.55);
+        letter-spacing: -0.128px;
+      }
+
+      .instruction-pill {
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(16px) saturate(1.4);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 100px;
+        padding: 10px 20px;
+        white-space: nowrap;
+        z-index: 20;
+      }
+      .instruction-pill .dot {
+        width: 8px;
+        height: 8px;
+        background: #e16d3e;
+        border-radius: 50%;
+        flex-shrink: 0;
+        box-shadow: 0 0 6px rgba(225, 109, 62, 0.6);
+        animation: pulse-dot 1.4s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
         }
+        50% {
+          opacity: 0.6;
+          transform: scale(0.85);
+        }
+      }
+      .instruction-pill span {
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .scan-frame {
+        position: absolute;
+        left: 22px;
+        top: 147px;
+        width: 358px;
+        height: 415px;
+        z-index: 10;
+      }
+      .corner {
+        position: absolute;
+        width: 32px;
+        height: 27px;
+      }
+      .corner.tl {
+        top: 0;
+        left: 0;
+        border-top: 2.5px solid white;
+        border-left: 2.5px solid white;
+        border-radius: 6px 0 0 0;
+      }
+      .corner.tr {
+        top: 0;
+        right: 0;
+        border-top: 2.5px solid white;
+        border-right: 2.5px solid white;
+        border-radius: 0 6px 0 0;
+      }
+      .corner.bl {
+        bottom: 0;
+        left: 0;
+        border-bottom: 2.5px solid white;
+        border-left: 2.5px solid white;
+        border-radius: 0 0 0 6px;
+      }
+      .corner.br {
+        bottom: 0;
+        right: 0;
+        border-bottom: 2.5px solid white;
+        border-right: 2.5px solid white;
+        border-radius: 0 0 6px 0;
+      }
+
+      .scan-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(225, 109, 62, 0.9) 40%,
+          rgba(225, 109, 62, 1) 50%,
+          rgba(225, 109, 62, 0.9) 60%,
+          transparent
+        );
+        box-shadow: 0 0 12px rgba(225, 109, 62, 0.6);
+        animation: sweep 2.4s ease-in-out infinite;
+      }
+      @keyframes sweep {
+        0% {
+          top: 0;
+          opacity: 0;
+        }
+        8% {
+          opacity: 1;
+        }
+        92% {
+          opacity: 1;
+        }
+        100% {
+          top: 100%;
+          opacity: 0;
+        }
+      }
+
+      .room-wireframe {
+        position: absolute;
+        left: 22px;
+        top: 147px;
+        width: 358px;
+        height: 415px;
+        pointer-events: none;
+        z-index: 8;
+      }
+
+      .divider {
+        position: absolute;
+        left: 6px;
+        right: 6px;
+        top: 571px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.08);
+        z-index: 10;
+      }
+
+      .progress-section {
+        position: absolute;
+        top: 590px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        z-index: 20;
+      }
+      .progress-pct {
+        font-size: 28px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+        letter-spacing: -0.5px;
+        transition: opacity 0.3s;
+      }
+      .progress-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.45);
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+      }
+      .progress-chips {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .chip {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 100px;
+        white-space: nowrap;
+        transition:
+          background 0.5s,
+          color 0.5s,
+          border-color 0.5s;
+      }
+      .chip.done {
+        background: #cd6338;
+        color: #fff;
+        border: 1px solid #cd6338;
+      }
+      .chip.pending {
+        background: rgba(255, 255, 255, 0.07);
+        color: rgba(255, 255, 255, 0.35);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor rounded"></div>
+    <div class="phone" data-no-nav>
+      <video class="camera-video" id="scanVideo" autoplay muted playsinline>
+        <source src="assets/videos/kitchenBefore.mp4" type="video/mp4" />
+      </video>
+
+      <div class="cam-overlay"></div>
+
+      <div class="top-nav">
+        <button class="back-btn" onclick="history.back()" aria-label="Go back">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M6.62132 12C6.62132 11.3375 6.8846 10.7021 7.35277 10.2334V10.2324L13.5432 4.04296C13.9337 3.65255 14.5668 3.65247 14.9573 4.04296C15.3476 4.43345 15.3476 5.06653 14.9573 5.45702L8.76683 11.6475C8.67367 11.7411 8.62132 11.8678 8.62132 12C8.62132 12.1321 8.67367 12.2589 8.76683 12.3525L14.9573 18.543C15.3476 18.9335 15.3476 19.5665 14.9573 19.957C14.5668 20.3475 13.9337 20.3474 13.5432 19.957L7.35277 13.7676V13.7666C6.8846 13.2978 6.62132 12.6625 6.62132 12Z"
+              fill="#fff"
+            />
+          </svg>
+        </button>
+        <span class="step-label">Step 2 of 5</span>
+        <button
+          class="skip-btn"
+          onclick="window.location.href = 'keeping-furniture.html'"
+        >
+          Skip
+        </button>
+      </div>
+
+      <div class="instruction-pill">
+        <div class="dot"></div>
+        <span>Move your phone slowly around the room</span>
+      </div>
+
+      <div class="scan-frame">
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+        <div class="scan-line"></div>
+      </div>
+
+      <svg
+        class="room-wireframe"
+        viewBox="0 0 358 415"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M 60 310 L 298 310 L 340 390 L 18 390 Z"
+          fill="none"
+          stroke="rgba(225,109,62,0.25)"
+          stroke-width="1.2"
+        />
+        <line
+          x1="60"
+          y1="310"
+          x2="298"
+          y2="310"
+          stroke="rgba(225,109,62,0.4)"
+          stroke-width="1.2"
+        />
+        <line
+          x1="60"
+          y1="310"
+          x2="18"
+          y2="390"
+          stroke="rgba(225,109,62,0.25)"
+          stroke-width="1"
+        />
+        <line
+          x1="298"
+          y1="310"
+          x2="340"
+          y2="390"
+          stroke="rgba(225,109,62,0.25)"
+          stroke-width="1"
+        />
+        <line
+          x1="60"
+          y1="130"
+          x2="60"
+          y2="310"
+          stroke="rgba(225,109,62,0.35)"
+          stroke-width="1.2"
+        />
+        <line
+          x1="298"
+          y1="130"
+          x2="298"
+          y2="310"
+          stroke="rgba(225,109,62,0.35)"
+          stroke-width="1.2"
+        />
+        <line
+          x1="60"
+          y1="130"
+          x2="298"
+          y2="130"
+          stroke="rgba(225,109,62,0.3)"
+          stroke-width="1.2"
+        />
+        <line
+          x1="18"
+          y1="60"
+          x2="60"
+          y2="130"
+          stroke="rgba(225,109,62,0.2)"
+          stroke-width="1"
+        />
+        <line
+          x1="18"
+          y1="60"
+          x2="18"
+          y2="390"
+          stroke="rgba(225,109,62,0.2)"
+          stroke-width="1"
+        />
+        <line
+          x1="340"
+          y1="60"
+          x2="298"
+          y2="130"
+          stroke="rgba(225,109,62,0.2)"
+          stroke-width="1"
+        />
+        <line
+          x1="340"
+          y1="60"
+          x2="340"
+          y2="390"
+          stroke="rgba(225,109,62,0.2)"
+          stroke-width="1"
+        />
+        <line
+          x1="18"
+          y1="60"
+          x2="340"
+          y2="60"
+          stroke="rgba(225,109,62,0.2)"
+          stroke-width="1"
+        />
+        <rect
+          x="22"
+          y="160"
+          width="36"
+          height="130"
+          rx="2"
+          fill="none"
+          stroke="rgba(225,109,62,0.45)"
+          stroke-width="1"
+          stroke-dasharray="4 3"
+        />
+        <text
+          x="40"
+          y="242"
+          text-anchor="middle"
+          font-family="'Plus Jakarta Sans', sans-serif"
+          font-size="8"
+          fill="rgba(225,109,62,0.7)"
+        >
+          Cabinet
+        </text>
+        <rect
+          x="140"
+          y="145"
+          width="78"
+          height="60"
+          rx="2"
+          fill="none"
+          stroke="rgba(225,109,62,0.4)"
+          stroke-width="1"
+          stroke-dasharray="4 3"
+        />
+        <text
+          x="179"
+          y="215"
+          text-anchor="middle"
+          font-family="'Plus Jakarta Sans', sans-serif"
+          font-size="8"
+          fill="rgba(225,109,62,0.65)"
+        >
+          Window
+        </text>
+        <rect
+          x="22"
+          y="130"
+          width="314"
+          height="180"
+          rx="0"
+          fill="url(#scanGrad)"
+          opacity="0.08"
+        />
+        <defs>
+          <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e16d3e" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#e16d3e" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <div class="divider"></div>
+
+      <div class="progress-section">
+        <span class="progress-pct" id="pctLabel">0%</span>
+        <span class="progress-label">Scanning in progress</span>
+        <div class="progress-chips">
+          <span class="chip pending" id="chipWalls">Walls</span>
+          <span class="chip pending" id="chipFloor">Floor</span>
+          <span class="chip pending" id="chipCeiling">Ceiling</span>
+          <span class="chip pending" id="chipObjects">Objects</span>
+        </div>
+      </div>
+    </div>
+    <script src="assets/glow.js"></script>
+    <script>
+      const video = document.getElementById("scanVideo");
+      const pctLabel = document.getElementById("pctLabel");
+      const chips = [
+        { el: document.getElementById("chipWalls"), threshold: 0.2 },
+        { el: document.getElementById("chipFloor"), threshold: 0.45 },
+        { el: document.getElementById("chipCeiling"), threshold: 0.7 },
+        { el: document.getElementById("chipObjects"), threshold: 0.9 },
+      ];
+
+      function tick() {
+        if (!video.duration) return;
+        const progress = Math.min(video.currentTime / video.duration, 1);
+        pctLabel.textContent = Math.round(progress * 100) + "%";
+        chips.forEach((c) => {
+          if (progress >= c.threshold) {
+            c.el.classList.replace("pending", "done");
+            if (!c.el.textContent.includes("✓")) c.el.textContent += " ✓";
+          }
+        });
+      }
+
+      video.addEventListener("timeupdate", tick);
+      video.addEventListener("ended", () => {
+        setTimeout(() => {
+          window.location.href = "keeping-furniture.html";
+        }, 1000);
       });
-      if (progress >= 1) { clearInterval(iv); setTimeout(() => { window.location.href = 'keeping-furniture.html'; }, 1000); }
-    }, 80);
-  });
-</script>
-</body>
+
+      video.addEventListener("error", () => {
+        let start = Date.now(),
+          duration = 8000;
+        const iv = setInterval(() => {
+          const progress = Math.min((Date.now() - start) / duration, 1);
+          pctLabel.textContent = Math.round(progress * 100) + "%";
+          chips.forEach((c) => {
+            if (progress >= c.threshold && !c.el.classList.contains("done")) {
+              c.el.classList.replace("pending", "done");
+              c.el.textContent += " ✓";
+            }
+          });
+          if (progress >= 1) {
+            clearInterval(iv);
+            setTimeout(() => {
+              window.location.href = "keeping-furniture.html";
+            }, 1000);
+          }
+        }, 80);
+      });
+    </script>
+  </body>
 </html>
