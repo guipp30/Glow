@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow – Home Welcome</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/glow.css" />
+  <style>
+    /* Home-specific overrides */
+    body { align-items: flex-start; }
+    .phone {
+      min-height: 874px; /* scrollable — no fixed height */
+      background: #fdf9f7;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Scroll area ─── */
+    .scroll-area {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 16px;
+      padding-bottom: 96px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .scroll-area::-webkit-scrollbar { display: none; }
+
+    /* ─── App header ─── */
+    .app-header {
+      background: #fff;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 24px 20px 16px;
+    }
+    .app-header .branding .label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      line-height: 16.5px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #b2a8a3;
+    }
+    .app-header .branding h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 30px;
+      color: #696361;
+      margin-top: 4px;
+    }
+    .app-header .branding .subtitle {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      color: #b2a8a3;
+      margin-top: 4px;
+    }
+    .settings-btn {
+      margin-top: 4px;
+      width: 40px;
+      height: 40px;
+      background: #fcf2ee;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .settings-btn img { width: 18px; height: 18px; }
+
+    /* ─── Main content ─── */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    /* ─── Empty project card ─── */
+    .project-card {
+      background: #fff;
+      border: 2px dashed #e4d7d1;
+      border-radius: 24px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .project-card .preview {
+      position: relative;
+      height: 170px;
+      background: linear-gradient(154.6deg, #fcf2ee 0%, #fdf6f4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-card .preview .room-illustration {
+      width: 220px;
+      height: 130px;
+      opacity: 0.55;
+    }
+    .project-card .preview .chip {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+    }
+    .project-card .preview .chip span {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      color: #fff;
+    }
+    .chip-icon {
+      width: 11px;
+      height: 11px;
+      color: #fff;
+    }
+    .project-card .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+    .project-card .meta .info .title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: #696361;
+    }
+    .project-card .meta .info .desc {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      color: #b2a8a3;
+      margin-top: 2px;
+    }
+    .btn-new {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #cd6338;
+      border: none;
+      border-radius: 16px;
+      padding: 8px 24px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-new img { width: 24px; height: 24px; filter: brightness(0) invert(1); }
+    .btn-new span {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 1.2;
+      color: #fff;
+      letter-spacing: -0.128px;
+      white-space: nowrap;
+    }
+
+    /* ─── Section header ─── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .section-header .title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: #696361;
+    }
+    .section-header .hint {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: #b2a8a3;
+    }
+
+    /* ─── Room picker grid ─── */
+    .room-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .room-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 17.5px;
+      border-radius: 16px;
+      border: 1.5px solid #e4d7d1;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #696361;
+    }
+    .room-btn img { width: 24px; height: 24px; }
+    .room-btn.kitchen  { background: #f6d2c3; }
+    .room-btn.living   { background: #f0f8ee; }
+    .room-btn.bedroom  { background: #f9eaea; }
+    .room-btn.bathroom { background: #ecf7fc; }
+
+    /* ─── Trends strip ─── */
+    .trends-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .trends-scroll::-webkit-scrollbar { display: none; }
+    .trend-card {
+      position: relative;
+      flex-shrink: 0;
+      width: 110px;
+      height: 92px;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 8px;
+    }
+    .trend-card img.bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .trend-card .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(102,102,102,0.4) 0%, rgba(0,0,0,0.4) 68.75%);
+    }
+    .trend-card .label {
+      position: relative;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 20px;
+      color: #fff;
+      white-space: nowrap;
+      z-index: 1;
+    }
+    .trend-card .arrow {
+      position: relative;
+      width: 18px;
+      height: 18px;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .trend-card .arrow svg {
+      width: 15px;
+      height: 15px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ─── Bottom nav (local overrides only) ─── */
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 4px;
+      border-radius: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      background: none;
+    }
+    .nav-item img { width: 24px; height: 24px; }
+    .nav-item span {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.2;
+      letter-spacing: -0.096px;
+      color: #b2a8a3;
+    }
+    .nav-item.active span { color: #e16d3e; }
+    .nav-item.active img { filter: none; }
+
+    /* tint inactive icons slightly */
+    .nav-item:not(.active) img {
+      filter: grayscale(0.4) opacity(0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="phone" data-nav-active="Home">
+
+    <!-- Scrollable content -->
+    <div class="scroll-area">
+
+      <!-- App header -->
+      <div class="app-header">
+        <div class="branding">
+          <p class="label">Glow</p>
+          <h1>Welcome!</h1>
+          <p class="subtitle">No active project yet · let's change that!</p>
+        </div>
+        <button class="settings-btn" aria-label="Settings">
+          <img src="assets/icons/settings.svg" alt="" />
+        </button>
+      </div>
+
+      <!-- Main content -->
+      <div class="content">
+
+        <!-- Empty project card -->
+        <div class="project-card">
+          <div class="preview">
+            <img
+              class="room-illustration"
+              src="assets/decorative/new_project.svg"
+              alt="Empty room illustration"
+            />
+            <div class="chip">
+              <!-- Sparkle icon -->
+              <svg class="chip-icon" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.5 0.5L6.5 4.5L10.5 5.5L6.5 6.5L5.5 10.5L4.5 6.5L0.5 5.5L4.5 4.5L5.5 0.5Z" fill="white"/>
+              </svg>
+              <span>Start your first room</span>
+            </div>
+          </div>
+          <div class="meta">
+            <div class="info">
+              <p class="title">No projects yet</p>
+              <p class="desc">Scan a room to get started</p>
+            </div>
+            <a class="btn-new" href="what-are-we-designing.html">
+              <img src="assets/icons/add.svg" alt="" />
+              <span>New</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Pick a room -->
+        <div>
+          <div class="section-header">
+            <span class="title">Pick a room</span>
+            <span class="hint">What are you designing?</span>
+          </div>
+          <div class="room-grid">
+            <a class="room-btn kitchen" href="scan-start.html?room=kitchen">
+              <img src="assets/decorative/kitchen_pan.svg" alt="" />
+              <span>Kitchen</span>
+            </a>
+            <a class="room-btn living" href="scan-start.html?room=living">
+              <img src="assets/decorative/living_sofa.svg" alt="" />
+              <span>Living Room</span>
+            </a>
+            <a class="room-btn bedroom" href="scan-start.html?room=bedroom">
+              <img src="assets/decorative/bedroom_bed.svg" alt="" />
+              <span>Bedroom</span>
+            </a>
+            <a class="room-btn bathroom" href="scan-start.html?room=bathroom">
+              <img src="assets/decorative/bathroom_shower.svg" alt="" />
+              <span>Bathroom</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Trending this month -->
+        <div>
+          <div class="section-header">
+            <span class="title">Trending this month</span>
+            <span class="hint">Looking for fresh ideas?</span>
+          </div>
+          <div class="trends-scroll">
+            <div class="trend-card">
+              <img class="bg" src="assets/decorative/trends/Jaapndi.png" alt="Japandi" />
+              <div class="overlay"></div>
+              <span class="label">Japandi</span>
+              <div class="arrow">
+                <svg viewBox="0 0 15 15"><polyline points="5,2 10,7.5 5,13"/></svg>
+              </div>
+            </div>
+            <div class="trend-card">
+              <img class="bg" src="assets/decorative/trends/Biophilic.png" alt="Biophilic" />
+              <div class="overlay"></div>
+              <span class="label">Biophilic</span>
+              <div class="arrow">
+                <svg viewBox="0 0 15 15"><polyline points="5,2 10,7.5 5,13"/></svg>
+              </div>
+            </div>
+            <div class="trend-card">
+              <img class="bg" src="assets/decorative/trends/Vintage.png" alt="Vintage" />
+              <div class="overlay"></div>
+              <span class="label">Vintage</span>
+              <div class="arrow">
+                <svg viewBox="0 0 15 15"><polyline points="5,2 10,7.5 5,13"/></svg>
+              </div>
+            </div>
+            <div class="trend-card">
+              <img class="bg" src="assets/decorative/trends/Minimalism.png" alt="Minimalism" />
+              <div class="overlay"></div>
+              <span class="label">Minimalism</span>
+              <div class="arrow">
+                <svg viewBox="0 0 15 15"><polyline points="5,2 10,7.5 5,13"/></svg>
+              </div>
+            </div>
+            <div class="trend-card">
+              <img class="bg" src="assets/decorative/trends/Art Deco.png" alt="Art Deco" />
+              <div class="overlay"></div>
+              <span class="label">Art Deco</span>
+              <div class="arrow">
+                <svg viewBox="0 0 15 15"><polyline points="5,2 10,7.5 5,13"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content -->
+    </div><!-- /scroll-area -->
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav-wrap">
+      <nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+        <button class="nav-item active" aria-label="Home" aria-current="page">
+          <img src="assets/icons/home.svg" alt="" />
+          <span>Home</span>
+        </button>
+        <a class="nav-item" href="folders.html" aria-label="Projects">
+          <img src="assets/icons/projects.svg" alt="" />
+          <span>Projects</span>
+        </a>
+        <button class="nav-item" aria-label="Saves">
+          <img src="assets/icons/bookmark.svg" alt="" />
+          <span>Saves</span>
+        </button>
+        <button class="nav-item" aria-label="Menu">
+          <img src="assets/icons/menu.svg" alt="" />
+          <span>Menu</span>
+        </button>
+      </nav>
+    </div>
+
+  </div><!-- /phone -->
+<script src="assets/glow.js"></script>
+</body>
+</html>

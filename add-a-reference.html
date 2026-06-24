@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow – Add a Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/glow.css" />
+  <style>
+    .main {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 0 64px;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .heading { padding: 0 24px 20px; flex-shrink: 0; }
+    .heading h1 { font-size: 20px; font-weight: 700; line-height: 28px; color: #696361; }
+    .heading p  { font-size: 14px; line-height: 20px; color: #8a827f; margin-top: 4px; max-width: 342px; }
+
+    .upload-wrap { padding: 0 24px; flex-shrink: 0; }
+    .upload-area {
+      width: 100%;
+      height: 150px;
+      background: #fdf9f7;
+      border: 1px dashed #b2a8a3;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      overflow: hidden;
+    }
+    .upload-area:hover { border-color: #cd6338; background: #fcf2ee; }
+    .upload-area span { font-size: 16px; font-weight: 500; color: #696361; }
+
+    .action-btns {
+      display: flex;
+      gap: 16px;
+      padding: 8px 24px 24px;
+      flex-shrink: 0;
+    }
+    .btn-saves {
+      flex: 1; height: 52px;
+      background: #cd6338; border: none; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+      font-family: inherit; font-size: 16px; font-weight: 500;
+      letter-spacing: -0.128px; color: #fff;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-saves:hover { background: #b8512d; }
+    .btn-discovery {
+      flex: 1; height: 52px;
+      background: none; border: 1px solid #5f2e1a; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+      font-family: inherit; font-size: 16px; font-weight: 500;
+      letter-spacing: -0.128px; color: #5f2e1a;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-discovery:hover { background: #fcf2ee; }
+  </style>
+</head>
+<body>
+<div class="phone" data-nav-active="Home">
+
+  <div class="main">
+    <div class="top-nav">
+      <button class="back-btn" aria-label="Go back"></button>
+      <span class="step-label">Step 4 of 5</span>
+      <button class="skip-btn" onclick="window.location.href='set-budget.html'">Skip</button>
+    </div>
+
+    <div class="content">
+      <div class="heading">
+        <h1>Pick a Reference</h1>
+        <p>Upload, add from your saves or discovery references of what you like</p>
+      </div>
+
+      <div class="upload-wrap">
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+          <img src="assets/icons/Upload Icon.svg" width="32" height="32" alt="" />
+          <span>Tap to upload a photo</span>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="previewUpload(this)" />
+      </div>
+
+      <div class="action-btns">
+        <button class="btn-saves">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M5 5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V21L12 17.5L5 21V5Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          From Saves
+        </button>
+        <button class="btn-discovery">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#5f2e1a" stroke-width="1.8"/>
+            <path d="M16.5 7.5L14 14L7.5 16.5L10 10L16.5 7.5Z" stroke="#5f2e1a" stroke-width="1.8" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="1.5" fill="#5f2e1a"/>
+          </svg>
+          Discovery
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <button class="btn-primary" onclick="window.location.href='set-budget.html'">Continue</button>
+  </div>
+
+</div>
+<script src="assets/glow.js"></script>
+<script>
+  function previewUpload(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const area = document.querySelector('.upload-area');
+      area.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:15px;" alt="Reference" />`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+</body>
+</html>

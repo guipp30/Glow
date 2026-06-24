@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "glow",
+      "runtimeExecutable": "/usr/bin/ruby",
+      "runtimeArgs": ["-run", "-e", "httpd", "/Users/guilherme/Library/CloudStorage/GoogleDrive-guipp30@gmail.com/My Drive/Pesquisas DXD/Glow", "-p", "3456"],
+      "port": 3456
+    }
+  ]
+}

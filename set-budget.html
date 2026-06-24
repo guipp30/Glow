@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glow – Set Budget</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/glow.css" />
+    <style>
+      .main {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 40px 0 64px;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 8px;
+      }
+
+      .heading {
+        padding: 0 24px 24px;
+        flex-shrink: 0;
+      }
+      .heading h1 {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 28px;
+        color: #696361;
+      }
+      .heading p {
+        font-size: 14px;
+        line-height: 20px;
+        color: #8a827f;
+        margin-top: 4px;
+      }
+
+      .budget-card {
+        margin: 0 24px 24px;
+        background: #fcf2ee;
+        border-radius: 24px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .budget-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #696361;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+      }
+      .budget-amount {
+        font-size: 36px;
+        font-weight: 700;
+        color: #696361;
+        line-height: 40px;
+        margin-top: 8px;
+      }
+      .budget-items {
+        font-size: 12px;
+        color: #b2a8a3;
+        margin-top: 4px;
+      }
+
+      .slider-wrap {
+        padding: 0 24px;
+        flex-shrink: 0;
+      }
+      .range-track {
+        position: relative;
+        height: 32px;
+        display: flex;
+        align-items: center;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: 999px;
+        outline: none;
+        cursor: pointer;
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #e16d3e;
+        border: 2px solid #fff;
+        box-shadow:
+          0 10px 15px rgba(0, 0, 0, 0.1),
+          0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: grab;
+      }
+      input[type="range"]:active::-webkit-slider-thumb {
+        cursor: grabbing;
+      }
+
+      .range-labels {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0 0;
+      }
+      .range-labels span {
+        font-size: 12px;
+        color: #b2a8a3;
+      }
+
+      .adjust-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 20px 24px;
+        flex-shrink: 0;
+      }
+      .adj-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.1s;
+        flex-shrink: 0;
+      }
+      .adj-btn:active {
+        transform: scale(0.93);
+      }
+      .adj-btn.minus {
+        background: #fbf0eb;
+      }
+      .adj-btn.plus {
+        background: #fcf2ee;
+      }
+      .adjust-label {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+        color: #8a827f;
+      }
+
+      .cat-row {
+        display: flex;
+        gap: 8px;
+        padding: 0 24px;
+        flex-shrink: 0;
+      }
+      .cat-card {
+        flex: 1;
+        height: 116px;
+        border-radius: 16px;
+        background: #fdf6f4;
+        border: 1.5px solid transparent;
+        padding: 13.5px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .cat-card.active {
+        background: #f6d2c3;
+        border-color: #eb9d7e;
+      }
+      .cat-card .cat-icon {
+        width: 21px;
+        height: 21px;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+      .cat-card .cat-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: #696361;
+        line-height: 16px;
+        margin-top: 4px;
+      }
+      .cat-card.active .cat-name {
+        color: #a04d2c;
+      }
+      .cat-card .cat-range {
+        font-size: 10px;
+        color: #b2a8a3;
+        line-height: 15px;
+      }
+      .cat-card.active .cat-range {
+        color: #e16d3e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="phone" data-nav-active="Home">
+      <div class="main">
+        <div class="top-nav">
+          <button class="back-btn" aria-label="Go back"></button>
+          <span class="step-label">Step 5 of 5</span>
+          <button
+            class="skip-btn"
+            onclick="window.location.href = 'generating.html'"
+          >
+            Skip
+          </button>
+        </div>
+
+        <div class="content">
+          <div class="heading">
+            <h1>Let's set a budget</h1>
+            <p>We'll find the best pieces within your range</p>
+          </div>
+
+          <div class="budget-card">
+            <span class="budget-label">Your Budget</span>
+            <span class="budget-amount" id="budgetDisplay">€800</span>
+            <span class="budget-items" id="budgetItems">Approx. 267 items</span>
+          </div>
+
+          <div class="slider-wrap">
+            <div class="range-track">
+              <input
+                type="range"
+                id="budgetSlider"
+                min="200"
+                max="5000"
+                step="50"
+                value="800"
+                oninput="onSlider(this.value)"
+              />
+            </div>
+            <div class="range-labels">
+              <span>€200</span>
+              <span>€5,000</span>
+            </div>
+          </div>
+
+          <div class="adjust-row">
+            <button
+              class="adj-btn minus"
+              onclick="adjustBudget(-50)"
+              aria-label="Decrease by 50"
+            >
+              <svg width="24" height="24" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M3.33398 8H12.6673"
+                  stroke="#696361"
+                  stroke-width="1.33333"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <span class="adjust-label">Adjust by 50€</span>
+            <button
+              class="adj-btn plus"
+              onclick="adjustBudget(50)"
+              aria-label="Increase by 50"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M11 20V13H4C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11H11V4C11 3.44772 11.4477 3 12 3C12.5523 3 13 3.44772 13 4V11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H13V20C13 20.5523 12.5523 21 12 21C11.4477 21 11 20.5523 11 20Z"
+                  fill="#696361"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="cat-row">
+            <div
+              class="cat-card active"
+              id="catEssential"
+              onclick="selectCategory('essential', 200, 800)"
+            >
+              <img class="cat-icon" src="assets/decorative/couch.svg" alt="" />
+              <span class="cat-name">Essential</span>
+              <span class="cat-range">€200–€800</span>
+            </div>
+            <div
+              class="cat-card"
+              id="catEnhanced"
+              onclick="selectCategory('enhanced', 800, 2000)"
+            >
+              <img class="cat-icon" src="assets/decorative/lamp.svg" alt="" />
+              <span class="cat-name">Enhanced</span>
+              <span class="cat-range">€800–€2k</span>
+            </div>
+            <div
+              class="cat-card"
+              id="catPremium"
+              onclick="selectCategory('premium', 2000, 5000)"
+            >
+              <img class="cat-icon" src="assets/decorative/grid.svg" alt="" />
+              <span class="cat-name">Premium</span>
+              <span class="cat-range">€2k–€5k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta">
+        <button
+          class="btn-primary"
+          onclick="window.location.href = 'generating.html'"
+        >
+          Finish
+        </button>
+      </div>
+    </div>
+    <script src="assets/glow.js"></script>
+    <script>
+      const MIN = 200,
+        MAX = 5000;
+      let budget = 800;
+
+      const slider = document.getElementById("budgetSlider");
+      const display = document.getElementById("budgetDisplay");
+      const itemsLbl = document.getElementById("budgetItems");
+      const cats = {
+        essential: document.getElementById("catEssential"),
+        enhanced: document.getElementById("catEnhanced"),
+        premium: document.getElementById("catPremium"),
+      };
+
+      function updateUI() {
+        display.textContent = "€" + budget.toLocaleString("en");
+        itemsLbl.textContent = "Approx. " + Math.round(budget / 3) + " items";
+        slider.value = budget;
+        updateSliderTrack();
+        updateCategory();
+      }
+
+      function updateSliderTrack() {
+        const pct = ((budget - MIN) / (MAX - MIN)) * 100;
+        slider.style.background = `linear-gradient(to right, #e16d3e 0%, #e16d3e ${pct}%, #e4d7d1 ${pct}%, #e4d7d1 100%)`;
+      }
+
+      function updateCategory() {
+        Object.values(cats).forEach((c) => c.classList.remove("active"));
+        if (budget <= 800) cats.essential.classList.add("active");
+        else if (budget <= 2000) cats.enhanced.classList.add("active");
+        else cats.premium.classList.add("active");
+      }
+
+      function onSlider(val) {
+        budget = parseInt(val);
+        updateUI();
+      }
+
+      function adjustBudget(delta) {
+        budget = Math.min(MAX, Math.max(MIN, budget + delta));
+        updateUI();
+      }
+
+      function selectCategory(cat, low, high) {
+        budget = Math.min(
+          MAX,
+          Math.max(MIN, Math.round((low + high) / 2 / 50) * 50),
+        );
+        updateUI();
+      }
+
+      updateUI();
+    </script>
+  </body>
+</html>

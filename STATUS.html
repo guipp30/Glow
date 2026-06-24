@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GlowAI – Build Status</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: #f5f0ed;
+        color: #3d3330;
+        padding: 48px 24px;
+      }
+      .page {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      /* header */
+      header {
+        margin-bottom: 40px;
+      }
+      header .eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: #b2a8a3;
+        margin-bottom: 8px;
+      }
+      header h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #3d3330;
+      }
+      header .meta {
+        font-size: 13px;
+        color: #b2a8a3;
+        margin-top: 6px;
+      }
+
+      /* summary cards */
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 16px;
+        margin-bottom: 48px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .card .num {
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .card .lbl {
+        font-size: 12px;
+        font-weight: 500;
+        color: #b2a8a3;
+      }
+      .card.done .num {
+        color: #4caf7d;
+      }
+      .card.wip .num {
+        color: #e16d3e;
+      }
+      .card.todo .num {
+        color: #b2a8a3;
+      }
+      .card.warn .num {
+        color: #f5a623;
+      }
+
+      /* sections */
+      section {
+        margin-bottom: 48px;
+      }
+      section h2 {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #b2a8a3;
+        margin-bottom: 16px;
+      }
+
+      /* table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: #b2a8a3;
+        text-align: left;
+        padding: 8px 12px;
+        background: #efe9e5;
+        border-radius: 8px 8px 0 0;
+      }
+      th:first-child {
+        border-radius: 8px 0 0 0;
+      }
+      th:last-child {
+        border-radius: 0 8px 0 0;
+      }
+      tr:nth-child(even) td {
+        background: #faf7f5;
+      }
+      td {
+        font-size: 13px;
+        padding: 12px 12px;
+        border-bottom: 1px solid #ece5e1;
+        background: #fff;
+        vertical-align: top;
+      }
+      td:first-child {
+        font-weight: 600;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 3px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+      .badge.done {
+        background: #e8f7ef;
+        color: #2e8a57;
+      }
+      .badge.wip {
+        background: #fef0eb;
+        color: #c0532a;
+      }
+      .badge.missing {
+        background: #f0f0f0;
+        color: #888;
+      }
+      .badge.partial {
+        background: #fff8e1;
+        color: #c97d00;
+      }
+
+      /* asset grid */
+      .asset-group {
+        margin-bottom: 24px;
+      }
+      .asset-group h3 {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: #b2a8a3;
+        margin-bottom: 10px;
+      }
+      .asset-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .asset-pill {
+        font-size: 12px;
+        font-weight: 500;
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+      .asset-pill.have {
+        background: #e8f7ef;
+        color: #2e8a57;
+      }
+      .asset-pill.missing {
+        background: #f0f0f0;
+        color: #888;
+        border: 1px dashed #ccc;
+      }
+
+      footer {
+        font-size: 12px;
+        color: #b2a8a3;
+        text-align: center;
+        border-top: 1px solid #e4d7d1;
+        padding-top: 24px;
+        margin-top: 48px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <p class="eyebrow">GlowAI Design System</p>
+        <h1>Build Status Report</h1>
+        <p class="meta">
+          Generated 23 Jun 2026 · Based on Figma file: GlowAI Design (Flow:
+          Kitchen Refresh)
+        </p>
+      </header>
+
+      <!-- Summary cards -->
+      <div class="summary">
+        <div class="card done">
+          <span class="num">10</span><span class="lbl">Screens built</span>
+        </div>
+        <div class="card todo">
+          <span class="num">7</span><span class="lbl">Screens to build</span>
+        </div>
+        <div class="card done">
+          <span class="num">10</span><span class="lbl">Components needed</span>
+        </div>
+        <div class="card warn">
+          <span class="num">5</span><span class="lbl">Assets missing</span>
+        </div>
+      </div>
+
+      <!-- Screens -->
+      <section>
+        <h2>Screens (17 total)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Screen</th>
+              <th>File</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Home Welcome</td>
+              <td>home-welcome.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Full layout, local assets, bottom nav, trends strip</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>What are we designing?</td>
+              <td>what-are-we-designing.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>
+                Project naming screen — text input, suggestion chips with
+                tap-to-fill, Continue + Skip CTA
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Beginning of Scan</td>
+              <td>scan-start.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Step 1 of 5 — room map illustration (inline SVG), AI Ready badge, area badge, Scan CTA</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Scanning Room</td>
+              <td>scanning-room.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Step 2 of 5 — kitchenBefore.mp4 full-bleed BG, dark overlay, AR corner brackets + sweep, wireframe SVG, progress chips (solid fill on complete), auto-navigates on video end + 1 s delay, no CTA</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>Keeping Furniture</td>
+              <td>keeping-furniture.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Step 3 of 5 — toggle keep/replace per item, live count banner, table_keep + chair_keep assets, Continue → describe-idea.html</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Describe Idea</td>
+              <td>describe-idea.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Step 3 of 5 — textarea with live word count, 8 toggleable mood chips, Continue → add-a-reference.html</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Add a Reference</td>
+              <td>add-a-reference.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Step 4 of 5 — dashed upload area (tap-to-file with live preview), From Saves + Discovery buttons, Continue → set-budget.html</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Set Budget</td>
+              <td>set-budget.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Step 5 of 5 — live slider + ±50€ buttons + 3 category cards all synced; item count updates in real time; Finish → generating.html</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>Generating</td>
+              <td>generating.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>Animated progress bar 0→100%, 4 step indicators (pending→done), status text changes per step, auto-navigates to item-swap-1.html after 1 s delay, no CTA</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Item Swap 1</td>
+              <td>item-swap-1.html</td>
+              <td><span class="badge done">Done</span></td>
+              <td>kitchen_after.mp4 with play/pause + fullscreen; style tags; product list with green/orange budget dots; swap buttons → item-swap-2.html; Continue → shopping-list.html</td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Item Swap 2</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Swap confirmation state</td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Shopping List</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>
+                Products with budget tracker; cabinets/lamp/sink assets exist
+              </td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>Folders</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Saved projects grid; gallery images exist</td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Overlay Menu</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Slide-in nav overlay</td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>Home Final</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Project summary: 50% progress, next steps, "Your Picks"</td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>Overlay (item detail)</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Bottom sheet — product detail</td>
+            </tr>
+            <tr>
+              <td>17</td>
+              <td>Overlay Gallery</td>
+              <td>—</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Reference image picker overlay</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Components -->
+      <section>
+        <h2>Shared Components (10 needed)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Uses</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Bottom Navigation</td>
+              <td>13</td>
+              <td><span class="badge partial">Partial</span></td>
+              <td>
+                Coded inline in home-welcome; needs extraction to shared
+                component
+              </td>
+            </tr>
+            <tr>
+              <td>Primary Button (Buttons)</td>
+              <td>25 + 14</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Orange #cd6338, rounded-16, icon + label variant</td>
+            </tr>
+            <tr>
+              <td>Secondary Button</td>
+              <td>1</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Outlined/ghost variant</td>
+            </tr>
+            <tr>
+              <td>Swap Button / Icon</td>
+              <td>9</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Floating swap button used on Item Swap screens</td>
+            </tr>
+            <tr>
+              <td>Cancel / Confirm Buttons</td>
+              <td>1 each</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Destructive and confirm action pair</td>
+            </tr>
+            <tr>
+              <td>Progress Bar</td>
+              <td>1</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Used in Generating screen, also referenced in Home Final</td>
+            </tr>
+            <tr>
+              <td>Text Area</td>
+              <td>1</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>Multi-line input for Describe Idea screen</td>
+            </tr>
+            <tr>
+              <td>Step Indicator</td>
+              <td>5</td>
+              <td><span class="badge missing">Missing</span></td>
+              <td>"Step X of 5" shown across the scan flow</td>
+            </tr>
+            <tr>
+              <td>Status Bar</td>
+              <td>17</td>
+              <td><span class="badge partial">Partial</span></td>
+              <td>Coded inline in home-welcome; needs extraction</td>
+            </tr>
+            <tr>
+              <td>Room Picker Button</td>
+              <td>4</td>
+              <td><span class="badge partial">Partial</span></td>
+              <td>Coded inline in home-welcome; needs extraction</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Assets -->
+      <section>
+        <h2>Assets</h2>
+
+        <div class="asset-group">
+          <h3>Icons (/assets/icons/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">settings.svg</span>
+            <span class="asset-pill have">add.svg</span>
+            <span class="asset-pill have">add_grey.svg</span>
+            <span class="asset-pill have">bookmark.svg</span>
+            <span class="asset-pill have">cancel.svg</span>
+            <span class="asset-pill have">chevron-left.svg</span>
+            <span class="asset-pill have">correct.svg</span>
+            <span class="asset-pill have">fullscreen.svg</span>
+            <span class="asset-pill have">home.svg</span>
+            <span class="asset-pill have">menu.svg</span>
+            <span class="asset-pill have">minus.svg</span>
+            <span class="asset-pill have">projects.svg</span>
+            <span class="asset-pill have">search.svg</span>
+            <span class="asset-pill have">swap.svg</span>
+            <span class="asset-pill have">Upload Icon.svg</span>
+            <span class="asset-pill missing">chevron-right.svg ✗</span>
+            <span class="asset-pill missing">share.svg ✗</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Decorative SVGs (/assets/decorative/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">kitchen_pan.svg</span>
+            <span class="asset-pill have">living_sofa.svg</span>
+            <span class="asset-pill have">bedroom_bed.svg</span>
+            <span class="asset-pill have">bathroom_shower.svg</span>
+            <span class="asset-pill have">couch.svg</span>
+            <span class="asset-pill have">lamp.svg</span>
+            <span class="asset-pill have">grid.svg</span>
+            <span class="asset-pill have">new_project.svg</span>
+            <span class="asset-pill missing">3d_room.svg ✗</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Trends (/assets/decorative/trends/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">Jaapndi.png</span>
+            <span class="asset-pill have">Biophilic.png</span>
+            <span class="asset-pill have">Vintage.png</span>
+            <span class="asset-pill have">Minimalism.png</span>
+            <span class="asset-pill have">Art Deco.png</span>
+            <span class="asset-pill have">Jaapndi.avif</span>
+            <span class="asset-pill have">Biophilic.avif</span>
+            <span class="asset-pill have">Vintage.avif</span>
+            <span class="asset-pill have">Minimalism.avif</span>
+            <span class="asset-pill have">Art Deco.avif</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Projects (/assets/decorative/projects/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">bedroom.png + .avif</span>
+            <span class="asset-pill have">balcony.png + .avif</span>
+            <span class="asset-pill have">dining_table.png + .avif</span>
+            <span class="asset-pill have">garage.png + .avif</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Shopping List (/assets/decorative/shopping_list/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">cabinets.png + .avif</span>
+            <span class="asset-pill have">lamp.png + .avif</span>
+            <span class="asset-pill have">sink.png + .avif</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Keeping (/assets/decorative/keeping/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">chair_keep.png + .avif</span>
+            <span class="asset-pill have">table_keep.png + .avif</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Overlay (/assets/decorative/overlay/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">lamp_original.png + .avif</span>
+            <span class="asset-pill have">lamp_swap.png + .avif</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Gallery (/assets/decorative/gallery/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">gallery01–09.png</span>
+            <span class="asset-pill have">gallery01–09.avif</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Videos (/assets/videos/)</h3>
+          <div class="asset-list">
+            <span class="asset-pill have">kitchenBefore.mp4</span>
+            <span class="asset-pill have">kitchen_after.mp4</span>
+          </div>
+        </div>
+
+        <div class="asset-group">
+          <h3>Missing Assets</h3>
+          <div class="asset-list">
+            <span class="asset-pill missing"
+              >assets/icons/chevron-right.svg ✗</span
+            >
+            <span class="asset-pill missing">assets/icons/share.svg ✗</span>
+            <span class="asset-pill missing"
+              >assets/decorative/3d_room.svg ✗</span
+            >
+            <span class="asset-pill missing">App logo / wordmark ✗</span>
+            <span class="asset-pill missing">User avatar placeholder ✗</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Next steps -->
+      <section>
+        <h2>Suggested Build Order</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Task</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>
+                Extract Bottom Navigation, Status Bar, Primary Button into
+                shared CSS/HTML partials
+              </td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>
+                Build <strong>Homepage</strong> (screen 2) — same layout as Home
+                Welcome but with an active project card
+              </td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>
+                Build the scan flow:
+                <strong
+                  >Beginning of Scan → Scanning Room → Keeping Furniture →
+                  Describe Idea → Add a Reference → Set Budget</strong
+                >
+                (screens 3–8)
+              </td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>
+                Build <strong>Generating</strong> (screen 9) with progress bar
+                and AI status messages
+              </td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>
+                Build <strong>Item Swap 1 &amp; 2</strong> (screens 10–11) with
+                before/after overlay
+              </td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Build <strong>Shopping List</strong> (screen 12)</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>
+                Build <strong>Folders</strong> (screen 13) and
+                <strong>Home Final</strong> (screen 15)
+              </td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>
+                Build overlays: <strong>Overlay Menu</strong> (14),
+                <strong>Item Detail</strong> (16), <strong>Gallery</strong> (17)
+              </td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>
+                Create missing assets: chevron-right.svg, share.svg,
+                3d_room.svg, logo
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <footer>
+        GlowAI — Build Status · 17 screens total · 10 done, 7 remaining
+      </footer>
+    </div>
+  </body>
+</html>

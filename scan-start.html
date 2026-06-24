@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Glow – Scan Your Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/glow.css" />
+  <style>
+    .main {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding-top: 16px;
+      padding-bottom: 64px;
+    }
+
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 0 24px;
+      overflow: hidden;
+    }
+
+    .heading h1 { font-weight: 700; font-size: 24px; line-height: 30px; color: #696361; }
+    .heading p  { font-size: 14px; line-height: 22.75px; color: #8a827f; margin-top: 8px; max-width: 342px; }
+
+    .scan-card {
+      position: relative; background: #fcf2ee; border-radius: 24px;
+      height: 320px; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .scan-card .room-svg { width: 260px; height: 220px; }
+
+    .badge-ai-ready {
+      position: absolute; top: 16px; right: 16px;
+      background: #fff; border-radius: 20px;
+      display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+    }
+    .badge-ai-ready .dot { width: 8px; height: 8px; background: #e16d3e; border-radius: 50%; flex-shrink: 0; }
+    .badge-ai-ready span { font-size: 12px; font-weight: 600; color: #e16d3e; white-space: nowrap; }
+
+    .badge-area {
+      position: absolute; bottom: 16px; left: 16px;
+      background: #fff; border-radius: 20px; padding: 5px 12px;
+      font-size: 12px; font-weight: 500; color: #696361; white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+<div class="phone" data-nav-active="Home">
+
+  <div class="main">
+    <div class="top-nav">
+      <button class="back-btn" aria-label="Go back"></button>
+      <span class="step-label">Step 1 of 5</span>
+      <a class="skip-btn" href="keeping-furniture.html">Skip</a>
+    </div>
+
+    <div class="content">
+      <div class="heading">
+        <h1>First, let's map<br>your kitchen</h1>
+        <p>Move your camera around and our AI will create a 3D map in seconds. No measuring tape needed.</p>
+      </div>
+
+      <div class="scan-card">
+        <svg class="room-svg" viewBox="0 0 260 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="220" height="165" rx="4" fill="none" stroke="#d4c4bc" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <rect x="28" y="42" width="32" height="30" rx="3" fill="#fff" stroke="#d4c4bc" stroke-width="1.2"/>
+          <line x1="35" y1="52" x2="35" y2="62" stroke="#d4c4bc" stroke-width="1.2"/>
+          <line x1="30" y1="57" x2="40" y2="57" stroke="#d4c4bc" stroke-width="1.2"/>
+          <rect x="28" y="81" width="32" height="26" rx="3" fill="#fff" stroke="#d4c4bc" stroke-width="1.2"/>
+          <line x1="35" y1="86" x2="35" y2="101" stroke="#d4c4bc" stroke-width="1.2"/>
+          <line x1="42" y1="86" x2="42" y2="101" stroke="#d4c4bc" stroke-width="1.2"/>
+          <line x1="30" y1="91" x2="59" y2="91" stroke="#d4c4bc" stroke-width="1.2"/>
+          <line x1="30" y1="96" x2="59" y2="96" stroke="#d4c4bc" stroke-width="1.2"/>
+          <rect x="28" y="116" width="32" height="30" rx="3" fill="#fff" stroke="#d4c4bc" stroke-width="1.2"/>
+          <rect x="33" y="121" width="22" height="19" rx="2" fill="none" stroke="#d4c4bc" stroke-width="1"/>
+          <ellipse cx="168" cy="107" rx="52" ry="38" fill="none" stroke="#cd6338" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+          <circle cx="168" cy="107" r="7" fill="#e16d3e" opacity="0.15"/>
+          <circle cx="168" cy="107" r="4" fill="#e16d3e"/>
+          <line x1="20" y1="196" x2="240" y2="196" stroke="#b2a8a3" stroke-width="1" marker-start="url(#arrow-l)" marker-end="url(#arrow-r)"/>
+          <text x="130" y="210" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" fill="#b2a8a3">4.2 m</text>
+          <defs>
+            <marker id="arrow-l" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse">
+              <path d="M0,3 L6,0 L6,6 Z" fill="#b2a8a3"/>
+            </marker>
+            <marker id="arrow-r" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#b2a8a3"/>
+            </marker>
+          </defs>
+        </svg>
+
+        <div class="badge-ai-ready">
+          <div class="dot"></div>
+          <span>AI Ready</span>
+        </div>
+        <div class="badge-area">12.4 m²</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <button class="btn-primary" onclick="window.location.href='scanning-room.html'">Scan</button>
+  </div>
+
+</div>
+<script src="assets/glow.js"></script>
+</body>
+</html>
