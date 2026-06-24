@@ -25,9 +25,6 @@
   --success-600: #5da74e;
   --info-500: #3db2e1;
 }
-* {
-  cursor: none !important;
-}
 /* ─── Body ─── */
 body {
   background: var(--bg-page);
@@ -42,17 +39,22 @@ body {
     sans-serif;
 }
 
-.rounded {
-  position: fixed;
-  z-index: 100;
+/* Hide real cursor only inside the phone */
+.phone, .phone * { cursor: none !important; }
+
+/* Custom cursor dot — lives inside .phone, positioned absolutely */
+.cursor-dot {
+  position: absolute;
+  z-index: 200;
   width: 30px;
   height: 30px;
-  background-color: #ffffffa0;
+  background-color: rgba(205, 99, 56, 0.63);
+  border: 2px solid #fff;
   border-radius: 50%;
-  transition:
-    width 0.3s ease,
-    height 0.3s ease;
   pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease, width 0.3s ease, height 0.3s ease;
 }
 
 /* ─── Phone shell ─── */

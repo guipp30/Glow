@@ -1,21 +1,5 @@
 /* ─── GlowAI shared JS ─── */
 
-/* Custom cursor */
-const cursorRounded = document.querySelector(".rounded");
-
-const moveCursor = (e) => {
-  const mouseY = e.clientY;
-  const mouseX = e.clientX;
-  const cursorWidth = cursorRounded.clientWidth; // Get the actual width of the cursor
-  const cursorHeight = cursorRounded.clientHeight; // Get the actual height of the cursor
-
-  cursorRounded.style.transform = `translate3d(${mouseX - cursorWidth / 2}px, ${
-    mouseY - cursorHeight / 2
-  }px, 0)`;
-};
-
-window.addEventListener("mousemove", moveCursor);
-
 /* Back button SVG path */
 const BACK_CHEVRON_PATH =
   "M6.62132 12C6.62132 11.3375 6.8846 10.7021 7.35277 10.2334V10.2324L13.5432 4.04296C13.9337 3.65255 14.5668 3.65247 14.9573 4.04296C15.3476 4.43345 15.3476 5.06653 14.9573 5.45702L8.76683 11.6475C8.67367 11.7411 8.62132 11.8678 8.62132 12C8.62132 12.1321 8.67367 12.2589 8.76683 12.3525L14.9573 18.543C15.3476 18.9335 15.3476 19.5665 14.9573 19.957C14.5668 20.3475 13.9337 20.3474 13.5432 19.957L7.35277 13.7676V13.7666C6.8846 13.2978 6.62132 12.6625 6.62132 12Z";
@@ -154,8 +138,29 @@ window.glowCloseMenu = function () {
   }
 };
 
+function initCustomCursor() {
+  const phone = document.querySelector('.phone');
+  if (!phone) return;
+
+  const dot = document.createElement('div');
+  dot.className = 'cursor-dot';
+  phone.appendChild(dot);
+
+  phone.addEventListener('mousemove', (e) => {
+    const rect = phone.getBoundingClientRect();
+    const x = Math.min(Math.max(e.clientX - rect.left, 0), rect.width);
+    const y = Math.min(Math.max(e.clientY - rect.top, 0), rect.height);
+    dot.style.left = x + 'px';
+    dot.style.top = y + 'px';
+  });
+
+  phone.addEventListener('mouseenter', () => { dot.style.opacity = '1'; });
+  phone.addEventListener('mouseleave', () => { dot.style.opacity = '0'; });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initBackButtons();
   initBottomNav();
   initMenuOverlay();
+  initCustomCursor();
 });
